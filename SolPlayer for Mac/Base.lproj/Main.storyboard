@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="6198" systemVersion="14A297b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6198"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -641,12 +642,12 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="SolPlayer_for_Mac" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
-        <!--Window Controller - Window-->
+        <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
@@ -667,10 +668,35 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="m2S-Jp-Qdl">
+                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="SolPlayer_for_Mac" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" misplaced="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qMa-Tc-8Pe">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1024"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="solPlayer_icon_bg" id="wdX-F7-nNd"/>
+                            </imageView>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="09J-pr-j1Z">
+                                <rect key="frame" x="80" y="93" width="96" height="20"/>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="dsr-fS-RMR"/>
+                            </slider>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x6e-0N-jSR">
+                                <rect key="frame" x="115" y="135" width="39" height="32"/>
+                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" image="play2" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aEA-8K-fYG">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="qMa-Tc-8Pe" secondAttribute="bottom" id="25M-Mo-xX5"/>
+                            <constraint firstAttribute="trailing" secondItem="qMa-Tc-8Pe" secondAttribute="trailing" id="32j-5v-MPA"/>
+                            <constraint firstItem="qMa-Tc-8Pe" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="VeS-2v-qbK"/>
+                            <constraint firstItem="qMa-Tc-8Pe" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="aXN-Ge-Mjd"/>
+                            <constraint firstItem="qMa-Tc-8Pe" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="fAp-VH-Nua"/>
+                            <constraint firstItem="qMa-Tc-8Pe" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="gC6-tA-oY5"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -678,4 +704,8 @@
             <point key="canvasLocation" x="75" y="655"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="play2" width="64" height="64"/>
+        <image name="solPlayer_icon_bg" width="1024" height="1024"/>
+    </resources>
 </document>

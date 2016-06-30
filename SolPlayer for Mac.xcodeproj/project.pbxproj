@@ -14,6 +14,12 @@
 		BBD576B41D243D2C00782A43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBD576B21D243D2C00782A43 /* Main.storyboard */; };
 		BBD576BF1D243D2C00782A43 /* SolPlayer_for_MacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576BE1D243D2C00782A43 /* SolPlayer_for_MacTests.swift */; };
 		BBD576CA1D243D2C00782A43 /* SolPlayer_for_MacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576C91D243D2C00782A43 /* SolPlayer_for_MacUITests.swift */; };
+		BBD576D91D243D8500782A43 /* solPlayer_icon_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = BBD576D81D243D8500782A43 /* solPlayer_icon_bg.png */; };
+		BBD576DB1D24463A00782A43 /* play2.png in Resources */ = {isa = PBXBuildFile; fileRef = BBD576DA1D24463A00782A43 /* play2.png */; };
+		BBD576DD1D24464200782A43 /* play2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BBD576DC1D24464200782A43 /* play2@2x.png */; };
+		BBD576DF1D24A8D200782A43 /* SolPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576DE1D24A8D200782A43 /* SolPlayer.swift */; };
+		BBD576E11D24B4DB00782A43 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576E01D24B4DB00782A43 /* Song.swift */; };
+		BBD576E31D24B78400782A43 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576E21D24B78400782A43 /* AppError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +53,12 @@
 		BBD576C51D243D2C00782A43 /* SolPlayer for MacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SolPlayer for MacUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBD576C91D243D2C00782A43 /* SolPlayer_for_MacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolPlayer_for_MacUITests.swift; sourceTree = "<group>"; };
 		BBD576CB1D243D2C00782A43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBD576D81D243D8500782A43 /* solPlayer_icon_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = solPlayer_icon_bg.png; sourceTree = "<group>"; };
+		BBD576DA1D24463A00782A43 /* play2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play2.png; sourceTree = "<group>"; };
+		BBD576DC1D24464200782A43 /* play2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play2@2x.png"; sourceTree = "<group>"; };
+		BBD576DE1D24A8D200782A43 /* SolPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolPlayer.swift; sourceTree = "<group>"; };
+		BBD576E01D24B4DB00782A43 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		BBD576E21D24B78400782A43 /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +110,11 @@
 			isa = PBXGroup;
 			children = (
 				BBD576A91D243D2C00782A43 /* AppDelegate.swift */,
+				BBD576DE1D24A8D200782A43 /* SolPlayer.swift */,
 				BBD576AB1D243D2C00782A43 /* ViewController.swift */,
+				BBD576E01D24B4DB00782A43 /* Song.swift */,
+				BBD576E21D24B78400782A43 /* AppError.swift */,
+				BBD576D71D243D6500782A43 /* Images */,
 				BBD576B01D243D2C00782A43 /* Assets.xcassets */,
 				BBD576B21D243D2C00782A43 /* Main.storyboard */,
 				BBD576B51D243D2C00782A43 /* Info.plist */,
@@ -123,6 +139,16 @@
 				BBD576CB1D243D2C00782A43 /* Info.plist */,
 			);
 			path = "SolPlayer for MacUITests";
+			sourceTree = "<group>";
+		};
+		BBD576D71D243D6500782A43 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				BBD576D81D243D8500782A43 /* solPlayer_icon_bg.png */,
+				BBD576DA1D24463A00782A43 /* play2.png */,
+				BBD576DC1D24464200782A43 /* play2@2x.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,8 +255,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBD576DB1D24463A00782A43 /* play2.png in Resources */,
 				BBD576B11D243D2C00782A43 /* Assets.xcassets in Resources */,
+				BBD576D91D243D8500782A43 /* solPlayer_icon_bg.png in Resources */,
 				BBD576B41D243D2C00782A43 /* Main.storyboard in Resources */,
+				BBD576DD1D24464200782A43 /* play2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +285,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBD576AF1D243D2C00782A43 /* SolPlayer_for_Mac.xcdatamodeld in Sources */,
+				BBD576E11D24B4DB00782A43 /* Song.swift in Sources */,
+				BBD576E31D24B78400782A43 /* AppError.swift in Sources */,
+				BBD576DF1D24A8D200782A43 /* SolPlayer.swift in Sources */,
 				BBD576AC1D243D2C00782A43 /* ViewController.swift in Sources */,
 				BBD576AA1D243D2C00782A43 /* AppDelegate.swift in Sources */,
 			);
