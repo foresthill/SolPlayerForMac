@@ -11,7 +11,7 @@ import Foundation
 
 class Song {
     
-    /*あれ？独自クラス作らんでもMPMediaItemそのまま使えばよくね？？→軽量化の要件が出たら。→結局中身がよく分からんので作ることに。*/
+    /*あれ？独自クラス作らんでもMPMediaItemそのまま使えばよくね？？→cocoaではMPMediaItemがない。*/
     
     /** 曲名 */
     var title: String?
@@ -35,10 +35,17 @@ class Song {
     /** メディアの種類 */
     var mediaType: String?
     /** 曲の長さ */
+    var duration: NSTimeInterval = 0
     //var totalTime
     
     init(){
         
+    }
+    
+    //ファイル読み込みから作成
+    init(title: String, assetURL: NSURL){
+        self.title = title
+        self.assetURL = assetURL
     }
     
     /*
@@ -56,5 +63,8 @@ class Song {
         //MPMediaItem.en
     }
      */
+    func durationString() -> String {
+        return NSString(format: "%i:%02i", Int(self.duration) / 60, Int(self.duration) % 60) as String
+    }
     
 }

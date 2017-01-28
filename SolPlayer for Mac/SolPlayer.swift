@@ -83,13 +83,13 @@ class SolPlayer {
     var stopFlg = true
     
     //appDelegate外出し
-    var appDelegate: AppDelegate! = UIApplication.sharedApplication().delegate as! AppDelegate
+    //var appDelegate: AppDelegate! = UIApplication.sharedApplication().delegate as! AppDelegate
     
     //画面ロック時の曲情報を持つインスタンス
     //var defaultCenter: MPNowPlayingInfoCenter!
     
     //画面ロック時にも再生を続ける
-    let session: AVAudioSession = AVAudioSession.sharedInstance()
+    //let session: AVAudioSession = AVAudioSession.sharedInstance()
     
     //曲情報外出し
     //var song: Song!
@@ -110,14 +110,16 @@ class SolPlayer {
      */
     private init(){
         //画面ロック時も再生のカテゴリを指定
+        /*
         do {
             //try session.setCategory(AVAudioSessionCategoryPlayback)
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            //try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
             //オーディオセッションを有効化
-            try session.setActive(true)
+            //try session.setActive(true)
         } catch {
             
         }
+        */
         
         //画面ロック時のアクションを取得する（取得できなかったため暫定的にViewControllerで行う）
         //UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
@@ -135,27 +137,33 @@ class SolPlayer {
             //solSwitchImage =
         }
         
+        //プレイリストを初期化
+        playlist = [Song()]
+        
         //defaultのプレイリストを読み込み
+        /*
         do {
             playlist = try loadPlayList(0)
         } catch {
             
-        }
+        }*/
         
         //プレイリストのリストを読み込み
+        /*
         do {
-            try loadAllPlayLists()
+            //try loadAllPlayLists()
         } catch {
             
-        }
+        }*/
         
     }
     
     /** "C"RUD:プレイリスト新規作成 #64 */
     //    func newPlayList(name: String) throws -> NSNumber {
+    /*
     func newPlayList(name: String) throws -> Int {
         
-        let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext
+        //let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext
         
         do {
             let entity = NSEntityDescription.entityForName(PLAYLIST, inManagedObjectContext: managedContext)
@@ -179,6 +187,7 @@ class SolPlayer {
             throw AppError.CantMakePlaylistError
         }
     }
+     */
     
     /** ID生成（プレイリスト作成時に使う：NSManagedObjectIDの使い方がわかるまで）*/
     //func generateID() -> NSNumber {
@@ -195,6 +204,7 @@ class SolPlayer {
     }
     
     /** C"R"UD:プレイリストのリストを読込 #64 */
+    /*
     func loadAllPlayLists() throws {
         
         //defaultを設定
@@ -226,8 +236,10 @@ class SolPlayer {
         }
         
     }
+     */
     
     /** C"R"UD:プレイリストの曲を読込 #81 */
+    /*
     func loadPlayList(playlistId: Int) throws -> Array<Song> {
         
         //プレイリストを初期化
@@ -264,8 +276,10 @@ class SolPlayer {
         }
         
     }
+    */
     
     /** C"R"UD:MediaQueryで曲を読込み #81 */
+    /*
     func loadSong(songId: NSNumber) -> Song {
         
         var song = Song()
@@ -282,8 +296,10 @@ class SolPlayer {
         
         return song
     }
+     */
     
     /** "C"RUD:プレイリストの曲を保存（永続化処理） #81 */
+    /*
     func savePlayList(playlistId: NSNumber) throws {
         
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext
@@ -313,8 +329,10 @@ class SolPlayer {
         }
         
     }
+     */
     
     /** CRU"D":プレイリストの曲を削除（１曲削除） */
+    /*
     func removeSong(persistentId: UInt64) throws {
         
         do {
@@ -341,8 +359,10 @@ class SolPlayer {
         }
         
     }
+    */
     
     /** CRU"D":プレイリストの曲を削除（全曲削除） */
+    /*
     func removeAllSongs(playlistId: Int) throws {
         do {
             let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext
@@ -369,8 +389,10 @@ class SolPlayer {
         }
         
     }
+    */
     
     /** CRU"D":プレイリスト自体を削除 */
+    /*
     func removePlaylist(playlistId: Int) throws {
         
         do {
@@ -398,8 +420,10 @@ class SolPlayer {
             throw AppError.CantRemoveError
         }
     }
+    */
     
     /** CR"U"D:プレイリストの曲を更新（実際はは削除→追加） */
+    /*
     func updatePlayList(playlistId: Int) throws {
         
         do {
@@ -420,13 +444,17 @@ class SolPlayer {
         }
         
     }
+     */
     
     /**
      audioFileをプレイヤーに読み込む
      */
     //func readAudioFile() throws -> Song {
-    func readAudioFile() throws {
+    //func readAudioFile() throws {
+    func readAudioFile(url: NSURL) throws {
         
+        //20170109
+        /*
         if !playable() {
             throw AppError.NoPlayListError
         }
@@ -438,13 +466,14 @@ class SolPlayer {
         if(number >= playlist.count){
             number = playlist.count - 1
         }
-        
         //let song = playlist[number]
         song = playlist[number]
+         */
         
         //audioFile = try AVAudioFile(forReading: song.assetURL!)
-        let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
-        audioFile = try AVAudioFile(forReading: assetURL)
+        //let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
+        //let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
+        audioFile = try AVAudioFile(forReading: url)
         
         //サンプルレートの取得
         sampleRate = audioFile.fileFormat.sampleRate
@@ -456,6 +485,7 @@ class SolPlayer {
         initAudioEngine()
         
         //画面ロック時の情報を指定 #73
+        /*
         let defaultCenter = MPNowPlayingInfoCenter.defaultCenter()
         
         let playbackTime:NSTimeInterval = Double(currentPlayTime())
@@ -473,7 +503,7 @@ class SolPlayer {
         if let artwork = song.artwork {
             defaultCenter.nowPlayingInfo![SongPropertyArtwork] = artwork
         }
-        
+         */
     }
     
     /**
@@ -565,12 +595,15 @@ class SolPlayer {
                 //if(mainPlaylist != subPlaylist){
                 //選択されたプレイリストを読込
                 //print("読みなおす")
-                playlist = try loadPlayList(self.subPlaylist.id)
+                //playlist = try loadPlayList(self.subPlaylist.id)
                 mainPlaylist = subPlaylist
                 //}
                 
                 //音源ファイルを読み込む
-                try readAudioFile()
+                //try readAudioFile()
+                
+                //player起動
+                startPlayer()
                 
                 //停止フラグをfalseに
                 stopFlg = false
@@ -582,15 +615,14 @@ class SolPlayer {
             
         }
         
-        //player起動
-        startPlayer()
-        
     }
     
     /**
      audioPlayerNode起動（暫定的）
      */
     func startPlayer(){
+        
+        print(audioFile)
         
         //再生
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
@@ -662,11 +694,11 @@ class SolPlayer {
     /**
      リバーブを設定する（現在未使用）
      */
-    func reverb() {
+    func reverbChange(val: Float) {
         //リバーブを準備する
         //let reverbEffect = AVAudioUnitReverb()
         reverbEffect.loadFactoryPreset(AVAudioUnitReverbPreset.LargeHall2)
-        reverbEffect.wetDryMix = 50
+        reverbEffect.wetDryMix = val
         
         //return reverbEffect
         
@@ -675,7 +707,8 @@ class SolPlayer {
     /**
      ソルフェジオモードon/off（ピッチ変更）処理
      */
-    func pitchChange(solSwitch: Bool){
+    //func pitchChange(solSwitch: Bool){
+    func pitchChange(hzVal: Int32){
         
         //設定値を取得する
         let result = config.objectForKey("solMode")
@@ -683,6 +716,16 @@ class SolPlayer {
             solMode = result as! Int
         }
         
+        
+        //print("Float(hzVal / 440)=", Float(hzVal / 440))
+        print("Float(hzVal / 440)=", Float(hzVal) / 440.0)
+        print("log2(Float(hzVal / 440))=", log2(Float(hzVal / 440)))
+        print("Hz=", hzVal);
+        print("cent=", 1200 * log2(Float(hzVal) / 440.0))
+        
+        timePitch.pitch = 1200 * log2(Float(hzVal) / 440.0)
+        
+        /*
         if(solSwitch){
             switch solMode {
             case 1:
@@ -697,6 +740,7 @@ class SolPlayer {
         } else {
             timePitch.pitch = 0
         }
+         */
         
     }
     

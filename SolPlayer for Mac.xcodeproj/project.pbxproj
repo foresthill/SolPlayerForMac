@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB4D7CC51E21B109000EE2FC /* Surge.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BB4D7CBF1E21B085000EE2FC /* Surge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BBD576AA1D243D2C00782A43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576A91D243D2C00782A43 /* AppDelegate.swift */; };
 		BBD576AC1D243D2C00782A43 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576AB1D243D2C00782A43 /* ViewController.swift */; };
 		BBD576AF1D243D2C00782A43 /* SolPlayer_for_Mac.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BBD576AD1D243D2C00782A43 /* SolPlayer_for_Mac.xcdatamodeld */; };
@@ -23,6 +24,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BB4D7CBE1E21B085000EE2FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8A1E1AA19917A79009735E2;
+			remoteInfo = Surge;
+		};
+		BB4D7CC01E21B085000EE2FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F84A6AAE19A9A72F007B53E1;
+			remoteInfo = SurgeTests;
+		};
+		BB4D7CC21E21B0CB000EE2FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8A1E1A919917A79009735E2;
+			remoteInfo = Surge;
+		};
 		BBD576BB1D243D2C00782A43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BBD5769E1D243D2C00782A43 /* Project object */;
@@ -39,7 +61,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BB4D7CC41E21B0E1000EE2FC /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BB4D7CC51E21B109000EE2FC /* Surge.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = Surge/Surge.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BBD576A61D243D2C00782A43 /* SolPlayer for Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SolPlayer for Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBD576A91D243D2C00782A43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBD576AB1D243D2C00782A43 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +123,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BB4D7CBA1E21B085000EE2FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BB4D7CBF1E21B085000EE2FC /* Surge.framework */,
+				BB4D7CC11E21B085000EE2FC /* SurgeTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BBD5769D1D243D2C00782A43 = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +163,7 @@
 				BBD576D71D243D6500782A43 /* Images */,
 				BBD576B01D243D2C00782A43 /* Assets.xcassets */,
 				BBD576B21D243D2C00782A43 /* Main.storyboard */,
+				BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */,
 				BBD576B51D243D2C00782A43 /* Info.plist */,
 				BBD576AD1D243D2C00782A43 /* SolPlayer_for_Mac.xcdatamodeld */,
 			);
@@ -161,10 +208,12 @@
 				BBD576A21D243D2C00782A43 /* Sources */,
 				BBD576A31D243D2C00782A43 /* Frameworks */,
 				BBD576A41D243D2C00782A43 /* Resources */,
+				BB4D7CC41E21B0E1000EE2FC /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BB4D7CC31E21B0CB000EE2FC /* PBXTargetDependency */,
 			);
 			name = "SolPlayer for Mac";
 			productName = "SolPlayer for Mac";
@@ -214,7 +263,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Morioka Naoya";
 				TargetAttributes = {
 					BBD576A51D243D2C00782A43 = {
@@ -222,10 +271,12 @@
 					};
 					BBD576B91D243D2C00782A43 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0810;
 						TestTargetID = BBD576A51D243D2C00782A43;
 					};
 					BBD576C41D243D2C00782A43 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0810;
 						TestTargetID = BBD576A51D243D2C00782A43;
 					};
 				};
@@ -241,6 +292,12 @@
 			mainGroup = BBD5769D1D243D2C00782A43;
 			productRefGroup = BBD576A71D243D2C00782A43 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BB4D7CBA1E21B085000EE2FC /* Products */;
+					ProjectRef = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				BBD576A51D243D2C00782A43 /* SolPlayer for Mac */,
@@ -249,6 +306,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BB4D7CBF1E21B085000EE2FC /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = BB4D7CBE1E21B085000EE2FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BB4D7CC11E21B085000EE2FC /* SurgeTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SurgeTests.xctest;
+			remoteRef = BB4D7CC01E21B085000EE2FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BBD576A41D243D2C00782A43 /* Resources */ = {
@@ -312,6 +386,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BB4D7CC31E21B0CB000EE2FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Surge;
+			targetProxy = BB4D7CC21E21B0CB000EE2FC /* PBXContainerItemProxy */;
+		};
 		BBD576BC1D243D2C00782A43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BBD576A51D243D2C00782A43 /* SolPlayer for Mac */;
@@ -350,8 +429,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -395,8 +476,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -415,6 +498,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -425,8 +509,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "SolPlayer for Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.foresthill.SolPlayer-for-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -437,8 +523,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "SolPlayer for Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.foresthill.SolPlayer-for-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -451,6 +539,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.foresthill.SolPlayer-for-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SolPlayer for Mac.app/Contents/MacOS/SolPlayer for Mac";
 			};
 			name = Debug;
@@ -464,6 +553,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.foresthill.SolPlayer-for-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SolPlayer for Mac.app/Contents/MacOS/SolPlayer for Mac";
 			};
 			name = Release;
@@ -476,6 +566,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.foresthill.SolPlayer-for-MacUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = "SolPlayer for Mac";
 			};
 			name = Debug;
@@ -488,6 +579,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.foresthill.SolPlayer-for-MacUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = "SolPlayer for Mac";
 			};
 			name = Release;
@@ -511,6 +603,7 @@
 				BBD576D01D243D2C00782A43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BBD576D11D243D2C00782A43 /* Build configuration list for PBXNativeTarget "SolPlayer for MacTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +612,7 @@
 				BBD576D31D243D2C00782A43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BBD576D41D243D2C00782A43 /* Build configuration list for PBXNativeTarget "SolPlayer for MacUITests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +621,7 @@
 				BBD576D61D243D2C00782A43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
