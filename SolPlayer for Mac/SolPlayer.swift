@@ -46,6 +46,9 @@ class SolPlayer {
     //総再生時間
     var duration: Double!
     
+    //音量（2017/03/05）
+    var volume: Float = 1.0
+    
     //サンプルレート
     var sampleRate: Double!
     
@@ -451,7 +454,8 @@ class SolPlayer {
      */
     //func readAudioFile() throws -> Song {
     //func readAudioFile() throws {
-    func readAudioFile(url: NSURL) throws {
+    //func readAudioFile(url: NSURL) throws {
+    func readAudioFile(_song: Song) throws {
         
         //20170109
         /*
@@ -470,10 +474,14 @@ class SolPlayer {
         song = playlist[number]
          */
         
+        //曲情報読み込み（2018/05/10）
+        self.song = _song
+        
         //audioFile = try AVAudioFile(forReading: song.assetURL!)
         //let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
         //let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
-        audioFile = try AVAudioFile(forReading: url)
+        //audioFile = try AVAudioFile(forReading: url)
+        audioFile = try AVAudioFile(forReading: _song.assetURL!)
         
         //サンプルレートの取得
         sampleRate = audioFile.fileFormat.sampleRate
@@ -589,6 +597,7 @@ class SolPlayer {
         
         //初回再生時あるいは再読込時
         if stopFlg {
+        //if stopFlg && let song = playlist[] {
             
             do {
                 //再生するプレイリストを更新 #64,#81
@@ -622,7 +631,13 @@ class SolPlayer {
      */
     func startPlayer(){
         
-        print(audioFile)
+        //print(audioFile)
+        
+        //print(audioFile.valueForKey("title"))
+        //print(audioFile.length)
+        
+        //音量設定（2017/03/05）※これ入れないと、毎回音量がリセットされる
+        audioPlayerNode.volume = volume
         
         //再生
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
@@ -801,6 +816,16 @@ class SolPlayer {
     }
     
     /**
+     * 音量変更処理
+     */
+    func volumeChange(volumeSliderValue: Float) {
+        volume = volumeSliderValue
+        if (audioPlayerNode != nil) {
+            audioPlayerNode.volume = volume
+        }
+    }
+    
+    /**
      プレイリストの前の曲を読みこむ
      */
     func prevSong() throws {
@@ -874,6 +899,12 @@ class SolPlayer {
         return false
         
     }
+    
+    /*
+    func volumeChange(value: Float) {
+        audioPlayerNode.volume = value
+    }
+    */
     
     /**
      ロック画面からのイベントを処理する→ViewControllerへ移動。

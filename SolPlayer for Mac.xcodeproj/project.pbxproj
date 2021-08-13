@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BB4D7CC51E21B109000EE2FC /* Surge.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BB4D7CBF1E21B085000EE2FC /* Surge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BBB85EBB209D73EA00D68A47 /* ITunesLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB85EBA209D73EA00D68A47 /* ITunesLibrary.swift */; };
+		BBC2FE8F20A3AB0800EE3CC0 /* GeneralUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC2FE8E20A3AB0800EE3CC0 /* GeneralUtil.swift */; };
 		BBD576AA1D243D2C00782A43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576A91D243D2C00782A43 /* AppDelegate.swift */; };
 		BBD576AC1D243D2C00782A43 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576AB1D243D2C00782A43 /* ViewController.swift */; };
 		BBD576AF1D243D2C00782A43 /* SolPlayer_for_Mac.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BBD576AD1D243D2C00782A43 /* SolPlayer_for_Mac.xcdatamodeld */; };
@@ -77,6 +79,8 @@
 
 /* Begin PBXFileReference section */
 		BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = Surge/Surge.xcodeproj; sourceTree = SOURCE_ROOT; };
+		BBB85EBA209D73EA00D68A47 /* ITunesLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ITunesLibrary.swift; sourceTree = "<group>"; };
+		BBC2FE8E20A3AB0800EE3CC0 /* GeneralUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralUtil.swift; sourceTree = "<group>"; };
 		BBD576A61D243D2C00782A43 /* SolPlayer for Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SolPlayer for Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBD576A91D243D2C00782A43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBD576AB1D243D2C00782A43 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +170,8 @@
 				BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */,
 				BBD576B51D243D2C00782A43 /* Info.plist */,
 				BBD576AD1D243D2C00782A43 /* SolPlayer_for_Mac.xcdatamodeld */,
+				BBC2FE8E20A3AB0800EE3CC0 /* GeneralUtil.swift */,
+				BBB85EBA209D73EA00D68A47 /* ITunesLibrary.swift */,
 			);
 			path = "SolPlayer for Mac";
 			sourceTree = "<group>";
@@ -359,8 +365,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBD576AF1D243D2C00782A43 /* SolPlayer_for_Mac.xcdatamodeld in Sources */,
+				BBB85EBB209D73EA00D68A47 /* ITunesLibrary.swift in Sources */,
 				BBD576E11D24B4DB00782A43 /* Song.swift in Sources */,
 				BBD576E31D24B78400782A43 /* AppError.swift in Sources */,
+				BBC2FE8F20A3AB0800EE3CC0 /* GeneralUtil.swift in Sources */,
 				BBD576DF1D24A8D200782A43 /* SolPlayer.swift in Sources */,
 				BBD576AC1D243D2C00782A43 /* ViewController.swift in Sources */,
 				BBD576AA1D243D2C00782A43 /* AppDelegate.swift in Sources */,
