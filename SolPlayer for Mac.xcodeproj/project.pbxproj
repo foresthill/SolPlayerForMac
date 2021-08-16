@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BB4D7CC51E21B109000EE2FC /* Surge.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BB4D7CBF1E21B085000EE2FC /* Surge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B0C8C6BF26CA19FB00F816A2 /* Surge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B055CBDB26CA19BB00A79B48 /* Surge.framework */; };
+		B0C8C6C026CA19FB00F816A2 /* Surge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B055CBDB26CA19BB00A79B48 /* Surge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BBB85EBB209D73EA00D68A47 /* ITunesLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB85EBA209D73EA00D68A47 /* ITunesLibrary.swift */; };
 		BBC2FE8F20A3AB0800EE3CC0 /* GeneralUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC2FE8E20A3AB0800EE3CC0 /* GeneralUtil.swift */; };
 		BBD576AA1D243D2C00782A43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD576A91D243D2C00782A43 /* AppDelegate.swift */; };
@@ -26,6 +27,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B055CBDA26CA19BB00A79B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD31F1FC0AD99002BFE1C;
+			remoteInfo = "Surge-macOS";
+		};
+		B055CBDC26CA19BB00A79B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3271FC0AD99002BFE1C;
+			remoteInfo = "SurgeTests-macOS";
+		};
+		B055CBDE26CA19BB00A79B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3511FC0B001002BFE1C;
+			remoteInfo = "Surge-tvOS";
+		};
+		B055CBE026CA19BB00A79B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3591FC0B001002BFE1C;
+			remoteInfo = "SurgeTests-tvOS";
+		};
+		B055CBE226CA19BB00A79B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3821FC0B125002BFE1C;
+			remoteInfo = "Surge-watchOS";
+		};
+		B055CBE426CA19BB00A79B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CAAF5007233A7B6700CC0AA7;
+			remoteInfo = "SurgeBenchmarkTests-macOS";
+		};
 		BB4D7CBE1E21B085000EE2FC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
@@ -39,13 +82,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = F84A6AAE19A9A72F007B53E1;
 			remoteInfo = SurgeTests;
-		};
-		BB4D7CC21E21B0CB000EE2FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BB4D7CB91E21B085000EE2FC /* Surge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = F8A1E1A919917A79009735E2;
-			remoteInfo = Surge;
 		};
 		BBD576BB1D243D2C00782A43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -64,15 +100,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		BB4D7CC41E21B0E1000EE2FC /* Copy Frameworks */ = {
+		B0C8C6C126CA19FB00F816A2 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BB4D7CC51E21B109000EE2FC /* Surge.framework in Copy Frameworks */,
+				B0C8C6C026CA19FB00F816A2 /* Surge.framework in Embed Frameworks */,
 			);
-			name = "Copy Frameworks";
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -107,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0C8C6BF26CA19FB00F816A2 /* Surge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,11 +164,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B0C8C6B626CA19FB00F816A2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BB4D7CBA1E21B085000EE2FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				BB4D7CBF1E21B085000EE2FC /* Surge.framework */,
-				BB4D7CC11E21B085000EE2FC /* SurgeTests.xctest */,
+				BB4D7CC11E21B085000EE2FC /* SurgeTests-iOS.xctest */,
+				B055CBDB26CA19BB00A79B48 /* Surge.framework */,
+				B055CBDD26CA19BB00A79B48 /* SurgeTests-macOS.xctest */,
+				B055CBDF26CA19BB00A79B48 /* Surge.framework */,
+				B055CBE126CA19BB00A79B48 /* SurgeTests-tvOS.xctest */,
+				B055CBE326CA19BB00A79B48 /* Surge.framework */,
+				B055CBE526CA19BB00A79B48 /* SurgeBenchmarkTests-macOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,6 +193,7 @@
 				BBD576BD1D243D2C00782A43 /* SolPlayer for MacTests */,
 				BBD576C81D243D2C00782A43 /* SolPlayer for MacUITests */,
 				BBD576A71D243D2C00782A43 /* Products */,
+				B0C8C6B626CA19FB00F816A2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,12 +265,11 @@
 				BBD576A21D243D2C00782A43 /* Sources */,
 				BBD576A31D243D2C00782A43 /* Frameworks */,
 				BBD576A41D243D2C00782A43 /* Resources */,
-				BB4D7CC41E21B0E1000EE2FC /* Copy Frameworks */,
+				B0C8C6C126CA19FB00F816A2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				BB4D7CC31E21B0CB000EE2FC /* PBXTargetDependency */,
 			);
 			name = "SolPlayer for Mac";
 			productName = "SolPlayer for Mac";
@@ -292,6 +342,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -314,6 +365,48 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		B055CBDB26CA19BB00A79B48 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = B055CBDA26CA19BB00A79B48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B055CBDD26CA19BB00A79B48 /* SurgeTests-macOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeTests-macOS.xctest";
+			remoteRef = B055CBDC26CA19BB00A79B48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B055CBDF26CA19BB00A79B48 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = B055CBDE26CA19BB00A79B48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B055CBE126CA19BB00A79B48 /* SurgeTests-tvOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeTests-tvOS.xctest";
+			remoteRef = B055CBE026CA19BB00A79B48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B055CBE326CA19BB00A79B48 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = B055CBE226CA19BB00A79B48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B055CBE526CA19BB00A79B48 /* SurgeBenchmarkTests-macOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeBenchmarkTests-macOS.xctest";
+			remoteRef = B055CBE426CA19BB00A79B48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BB4D7CBF1E21B085000EE2FC /* Surge.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -321,10 +414,10 @@
 			remoteRef = BB4D7CBE1E21B085000EE2FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BB4D7CC11E21B085000EE2FC /* SurgeTests.xctest */ = {
+		BB4D7CC11E21B085000EE2FC /* SurgeTests-iOS.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SurgeTests.xctest;
+			path = "SurgeTests-iOS.xctest";
 			remoteRef = BB4D7CC01E21B085000EE2FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -394,11 +487,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		BB4D7CC31E21B0CB000EE2FC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Surge;
-			targetProxy = BB4D7CC21E21B0CB000EE2FC /* PBXContainerItemProxy */;
-		};
 		BBD576BC1D243D2C00782A43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BBD576A51D243D2C00782A43 /* SolPlayer for Mac */;

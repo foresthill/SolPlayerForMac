@@ -39,7 +39,7 @@ class Song {
     /** メディアの種類 */
     var mediaType: String?
     /** 曲の長さ */
-    var duration: NSTimeInterval = 0
+    var duration: TimeInterval = 0
     //var totalTime
     
     init(){
@@ -52,7 +52,7 @@ class Song {
         self.assetURL = assetURL
         
         //メタ情報読み込み
-        self.loadMetaDataFromAudioFile(assetURL)
+        self.loadMetaDataFromAudioFile(url: assetURL)
     }
     
     //メタ情報読み込み
@@ -61,20 +61,20 @@ class Song {
         //let asset: AVAsset = AVURLAsset(URL: url)
     //func loadMetaDataFromAudioFile(asset: AVAsset) {
     func loadMetaDataFromAudioFile(url: NSURL) {
-        let asset: AVAsset = AVURLAsset(URL: url)
+        let asset: AVAsset = AVURLAsset(url: url as URL)
         let metadata: Array = asset.commonMetadata
         
         print(metadata)
         
         for item in metadata {
-            switch item.commonKey! as String {
-            case AVMetadataCommonKeyTitle:
+            switch item.commonKey! {
+            case AVMetadataKey.commonKeyTitle:
                 //タイトル取得
                 self.title = item.stringValue!
-            case AVMetadataCommonKeyAlbumName:
+            case AVMetadataKey.commonKeyAlbumName:
                 //アルバム名取得
                 self.albumTitle = item.stringValue!
-            case AVMetadataCommonKeyArtist:
+            case AVMetadataKey.commonKeyArtist:
                 //アーティスト名取得
                 self.artist = item.stringValue!
             //case AVMetadatatime
@@ -92,12 +92,12 @@ class Song {
                     print(item.dataValue)
                     
                 }*/
-            case AVMetadataCommonKeyArtwork:
+            case AVMetadataKey.commonKeyArtwork:
                 //アートワーク取得
                 if let artworkData = item.value as? NSDictionary {
                     //iOS7まではNSDirectory型が返却される
                     //artwork = UIImage(data:artworkData["data"] as! NSData)
-                    artwork = NSImage(data:artworkData["data"] as! NSData)
+                    artwork = NSImage(data:artworkData["data"] as! Data)
                     //print(artworkData)
                 } else {
                     //iOS8からはNSData型が返却される
@@ -113,7 +113,7 @@ class Song {
         
         //再生時間を取得
         do {
-            let audioFile: AVAudioFile = try AVAudioFile(forReading: url)
+            let audioFile: AVAudioFile = try AVAudioFile(forReading: url as URL)
             //サンプルレートの取得
             let sampleRate = audioFile.fileFormat.sampleRate
             //総時間を取得
@@ -142,8 +142,9 @@ class Song {
     }
      */
     func durationString() -> String {
-        if let durationValue:NSTimeInterval = self.duration {
-            return NSString(format: "%i:%02i", Int(durationValue) / 60, Int(durationValue) % 60) as String
+        let durationValue:TimeInterval = self.duration
+        if durationValue != nil {
+            return NSString(format: "%i:%02i", Int(durationValue ?? 0) / 60, Int(durationValue ?? 0) % 60) as String
         } else {
             return "00:00:00"
         }

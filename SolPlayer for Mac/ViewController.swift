@@ -84,10 +84,10 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         */
         
         // 最初なぜかリバーブが0にならないので強引に
-        solPlayer.reverbChange(0.0)
+        solPlayer.reverbChange(val: 0.0)
 
         //
-        openLibrary(ITunesLibrary.XmlFilePath())
+        openLibrary(path: ITunesLibrary.XmlFilePath())
         
         // Do any additional setup after loading the view.
     }
@@ -109,13 +109,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         //openPanel.allowedFileTypes = AVMediaTypeAudio
         openPanel.allowedFileTypes = ["mp3", "wav", "m4a"]
         //print(kUTTypeAudio)
-        openPanel.beginWithCompletionHandler{ (result) -> Void in
-            if result == NSFileHandlingPanelOKButton {  //ファイルを選択したか（OKを押したか）
-                self.url = openPanel.URL!
+        openPanel.begin{ (result) -> Void in
+            if result is NSFileHandlingPanelOKButton {  //ファイルを選択したか（OKを押したか）
+                self.url = openPanel.url! as NSURL
                 
                 //音声ファイル情報読み込み
                 
-                let path = NSString(string: (openPanel.URL?.absoluteString)!)
+                let path = NSString(string: (openPanel.url?.absoluteString)!)
                 
                 //print(path.absolutePath)
                 //print(path.lastPathComponent)
@@ -126,7 +126,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 //print(self.url.absoluteString)
                 //self.solPlayer.playlist.append(Song(title: openPanel.nameFieldLabel, assetURL: openPanel.URL!))
                 //self.solPlayer.playlist.append(Song(title: openPanel.stringWithSavedFrame, assetURL: openPanel.URL!))
-                self.solPlayer.playlist.append(Song(title: path.lastPathComponent, assetURL: openPanel.URL!))
+                self.solPlayer.playlist.append(Song(title: path.lastPathComponent, assetURL: openPanel.url! as NSURL))
                 //print(self.solPlayer.playlist)
                 self.songTableView.reloadData()
                 //AudioUnit
@@ -152,7 +152,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             do {
                 //print("play")
                 //try solPlayer.readAudioFile(url)
-                try solPlayer.readAudioFile(solPlayer.song)
+                try solPlayer.readAudioFile(_song: solPlayer.song)
                 //print("read")
                 solPlayer.startPlayer()
                 //print("start")
@@ -178,7 +178,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         print("to432Hz")
         hzLabel.intValue = 432
         hzSlider.intValue = 432
-        solPlayer.pitchChange(432)
+        solPlayer.pitchChange(hzVal: 432)
     }
     
     /** 
@@ -188,13 +188,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         print("to444Hz")
         hzLabel.intValue = 444
         hzSlider.intValue = 444
-        solPlayer.pitchChange(444)
+        solPlayer.pitchChange(hzVal: 444)
     }
     
     @IBAction func hzSliderAction(sender: AnyObject) {
         print("hzSlider")
         hzLabel.intValue = hzSlider.intValue
-        solPlayer.pitchChange(hzSlider.intValue)
+        solPlayer.pitchChange(hzVal: hzSlider.intValue)
     }
     
     @IBAction func toSpecificHzButtonAction(sender: NSButton) {
@@ -202,7 +202,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let specificHz = Int32(sender.tag)
         hzLabel.intValue = specificHz
         hzSlider.intValue = specificHz
-        solPlayer.pitchChange(specificHz)
+        solPlayer.pitchChange(hzVal: specificHz)
         
     }
     
@@ -211,23 +211,23 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBAction func speedSliderAction(sender: AnyObject) {
         print("speedSlider")
         speedLabel.floatValue = speedSlider.floatValue
-        solPlayer.speedChange(speedSlider.floatValue)
+        solPlayer.speedChange(speedSliderValue: speedSlider.floatValue)
     }
     
     @IBAction func speedChangeButtonAction(sender: AnyObject) {
         print(sender.tag)
         speedLabel.floatValue = 1.0
         speedSlider.floatValue = 1.0
-        solPlayer.speedChange(1.0)
+        solPlayer.speedChange(speedSliderValue: 1.0)
     }
     
     @IBAction func reverbSliderAction(sender: AnyObject) {
         print("reverbSlider")
         reverbLabel.floatValue = reverbSlider.floatValue
-        solPlayer.reverbChange(reverbSlider.floatValue)
+        solPlayer.reverbChange(val: reverbSlider.floatValue)
     }
     
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
@@ -235,7 +235,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     @IBAction func volumeSliderAction(sender: AnyObject) {
         volumeLabel.intValue = volumeSlider.intValue
-        solPlayer.volumeChange(volumeSlider.floatValue / 50.0)
+        solPlayer.volumeChange(volumeSliderValue: volumeSlider.floatValue / 50.0)
     }
     
     /** tableView */
@@ -254,11 +254,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let columnName = tableColumn?.identifier
         
         if columnName == "Title" {
-            return title
+            return title as AnyObject
         } else if columnName == "Duration" {
-            return duration
+            return duration as AnyObject
         }
-        return ""
+        return "" as AnyObject
     }
     
     /** tableViewをクリックしたときの処理 */
@@ -270,22 +270,23 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             }
             //再生処理
             //if let playUrl = solPlayer.playlist[row].assetURL {
-            if let song:Song = solPlayer.playlist[row] {
+            let song:Song = solPlayer.playlist[row]
+            if song != nil {
                     do {
                     solPlayer.stop()
                     //読み込み
                     //try solPlayer.readAudioFile(playUrl)
-                    try solPlayer.readAudioFile(song)
+                        try solPlayer.readAudioFile(_song: song)
                     //print("read")
                     solPlayer.startPlayer()
                     //再生時間を設定する
                     //endTimeLabel = solPlayer.playlist[row].durationString()   //Segmentationエラーになる
                     //再生情報を更新
-                    setScreen(true)
+                        setScreen(values: true)
                 } catch {
                     //print("再生できませんでした。")  //2018/05/10
                     //再生情報を更新
-                    setScreen(false)
+                    setScreen(values: false)
                 }
             }
         }
@@ -302,7 +303,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }*/
         var plist:NSMutableDictionary
         do {
-            plist = try iTunes.load(path)
+            plist = try iTunes.load(libraryXmlPath: path)
         }
         //solPlayer.playlist.append(Element)
         return plist
@@ -327,7 +328,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             
             //スライダーを操作可能に #72
             //timeSlider.isEnabled = true
-            timeSlider.hidden = false
+            timeSlider.isHidden = false
             //timeSlider.maximumValue = Float(solPlayer.duration)
             timeSlider.maxValue = solPlayer.duration
             
@@ -348,7 +349,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             //timeSliderを0に固定していじらせない #72
             timeSlider.intValue = 0
             //timeSlider.isEnabled = false
-            timeSlider.hidden = true
+            timeSlider.isHidden = true
 
             //プレイリスト情報を更新
             playlistLabel.stringValue = solPlayer.mainPlaylist.name
@@ -356,7 +357,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
 
         //再生・一時再生ボタンをセット
-        setPlayLabel(solPlayer.audioPlayerNode.playing)
+        setPlayLabel(playing: solPlayer.audioPlayerNode.playing)
 
     }
 
@@ -383,11 +384,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         if (searchAlbum.stringValue.isEmpty) {
             return
         }
-        trackIds = iTunes.searchAlbum(searchAlbum.stringValue)
+        trackIds = iTunes.searchAlbum(title: searchAlbum.stringValue)
         //print(searchAlbum.stringValue)
         //print(trackIds)
         for trackId in trackIds {
-            solPlayer.playlist.append(Song(title:iTunes.songTitle(trackId), assetURL:iTunes.songAssetURL(trackId)))
+            solPlayer.playlist.append(Song(title:iTunes.songTitle(id: trackId), assetURL:iTunes.songAssetURL(trackId)))
             //print(iTunes.songAssetURL(trackId))
         }
         
