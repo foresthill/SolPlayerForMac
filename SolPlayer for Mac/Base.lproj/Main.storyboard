@@ -903,10 +903,10 @@
                                 <buttonCell key="cell" type="push" title="432Hz" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FVq-Vu-ed6">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="to432HzButtonActionWithSender:" target="XfG-lQ-9wD" id="G0I-Wy-Avn"/>
-                                    </connections>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="toSpecificHzButtonActionWithSender:" target="XfG-lQ-9wD" id="8Ww-IO-hT2"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" tag="444" translatesAutoresizingMaskIntoConstraints="NO" id="C8F-hy-YKh">
                                 <rect key="frame" x="289" y="309" width="70" height="32"/>
@@ -916,7 +916,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="to444HzButtonActionWithSender:" target="XfG-lQ-9wD" id="kvl-Hx-ia5"/>
+                                    <action selector="toSpecificHzButtonActionWithSender:" target="XfG-lQ-9wD" id="qNv-LO-HBJ"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pOx-bm-UaC">
@@ -1195,7 +1195,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="to437HzButtonAction:" target="XfG-lQ-9wD" id="SjN-wO-xX2"/>
+                                    <action selector="toSpecificHzButtonActionWithSender:" target="XfG-lQ-9wD" id="iNd-3n-TqU"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zfj-87-kNI">

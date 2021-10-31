@@ -181,6 +181,10 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         readFileAudio()
     }
     
+    /**
+     * button.tagでひとまとめにしたほうが良い→した
+     */
+    /*
     @IBAction func to432HzButtonAction(sender: AnyObject) {
         print("to432Hz")
         hzLabel.intValue = 432
@@ -188,9 +192,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         solPlayer.pitchChange(hzVal: 432)
     }
     
-    /** 
-     * button.tagでひとまとめにしたほうが良い
-     */
     @IBAction func to444HzButtonAction(sender: AnyObject) {
         print("to444Hz")
         hzLabel.intValue = 444
@@ -205,6 +206,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         solPlayer.pitchChange(hzVal: 437)
 
     }
+    */
     
     @IBAction func hzSliderAction(sender: AnyObject) {
         print("hzSlider")
@@ -213,7 +215,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
     
     @IBAction func toSpecificHzButtonAction(sender: NSButton) {
-        print(sender.tag)
+//        print(sender.tag)
         let specificHz = Int32(sender.tag)
         hzLabel.intValue = specificHz
         hzSlider.intValue = specificHz
