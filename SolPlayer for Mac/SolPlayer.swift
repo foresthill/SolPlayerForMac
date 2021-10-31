@@ -481,8 +481,9 @@ class SolPlayer {
         //let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
         //let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
         //audioFile = try AVAudioFile(forReading: url)
-        audioFile = try AVAudioFile(forReading: _song.assetURL! as URL)
-        
+//        audioFile = try AVAudioFile(forReading: _song.assetURL! as URL)
+        audioFile = try AVAudioFile(forReading: self.song.assetURL! as URL)
+
         //サンプルレートの取得
         sampleRate = audioFile.fileFormat.sampleRate
         

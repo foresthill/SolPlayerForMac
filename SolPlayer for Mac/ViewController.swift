@@ -113,7 +113,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         //print(kUTTypeAudio)
         openPanel.begin{ (result) -> Void in
 //            if result is NSFileHandlingPanelOKButton {  //ファイルを選択したか（OKを押したか）
-            if result != nil {
+            if result != nil && openPanel.url != nil{
                 self.url = openPanel.url! as NSURL
                 
                 //音声ファイル情報読み込み
@@ -130,7 +130,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 //self.solPlayer.playlist.append(Song(title: openPanel.nameFieldLabel, assetURL: openPanel.URL!))
                 //self.solPlayer.playlist.append(Song(title: openPanel.stringWithSavedFrame, assetURL: openPanel.URL!))
                 self.solPlayer.playlist.append(Song(title: path.lastPathComponent, assetURL: openPanel.url! as NSURL))
-                //print(self.solPlayer.playlist)
+                print(self.solPlayer.playlist)
                 self.songTableView.reloadData()
                 //AudioUnit
                 
@@ -151,10 +151,14 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     
     @IBAction func playButtonAction(sender: AnyObject) {
-        if url != nil {
+        // とりあえず一曲目から（2021/10/31）
+        solPlayer.song = solPlayer.playlist.last
+//        if url != nil {
+        dump(solPlayer.song)
+        if solPlayer.song.assetURL != nil {
             do {
                 //print("play")
-                //try solPlayer.readAudioFile(url)
+//                try solPlayer.readAudioFile(_url: url)
                 try solPlayer.readAudioFile(_song: solPlayer.song)
                 //print("read")
                 solPlayer.startPlayer()
@@ -194,6 +198,14 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         solPlayer.pitchChange(hzVal: 444)
     }
     
+    @IBAction func to437HzButtonAction(_ sender: Any) {
+        print("to437Hz")
+        hzLabel.intValue = 437
+        hzSlider.intValue = 437
+        solPlayer.pitchChange(hzVal: 437)
+
+    }
+    
     @IBAction func hzSliderAction(sender: AnyObject) {
         print("hzSlider")
         hzLabel.intValue = hzSlider.intValue
@@ -218,10 +230,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
     
     @IBAction func speedChangeButtonAction(sender: AnyObject) {
-        print(sender.tag)
-        speedLabel.floatValue = 1.0
-        speedSlider.floatValue = 1.0
-        solPlayer.speedChange(speedSliderValue: 1.0)
+//        print(sender.tag)
+        let speed:Float = Float(sender.tag)
+        speedLabel.floatValue = speed
+        speedSlider.floatValue = speed
+        solPlayer.speedChange(speedSliderValue: speed)
     }
     
     @IBAction func reverbSliderAction(sender: AnyObject) {
