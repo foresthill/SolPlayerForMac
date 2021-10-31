@@ -41,7 +41,7 @@ class SolPlayer {
     var pausedTime: Float! = 0.0
     
     //タイマー
-    var timer:NSTimer!
+    var timer:Timer!
     
     //総再生時間
     var duration: Double!
@@ -59,7 +59,7 @@ class SolPlayer {
     var remoteOffset = 0.0
     
     //ユーザ設定値
-    var config = NSUserDefaults.standardUserDefaults()
+    var config = UserDefaults.standard
     
     //再生中のプレイリスト（ViewController）
     //var playlist: [Song]! = nil
@@ -131,10 +131,10 @@ class SolPlayer {
         //var defaultCenter = MPNowPlayingInfoCenter.defaultCenter()
         
         //設定値を取得する
-        config = NSUserDefaults.standardUserDefaults()
+        config = UserDefaults.standard
         
         //ソルフェジオモード
-        let defaultConfig = config.objectForKey("solMode")
+        let defaultConfig = config.object(forKey: "solMode")
         if(defaultConfig != nil){
             solMode = defaultConfig as! Int
             //solSwitchImage =
@@ -198,10 +198,10 @@ class SolPlayer {
         
         let now = NSDate()
         
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMddHHmmss"
         
-        let string: String = formatter.stringFromDate(now)
+        let string: String = formatter.string(from: now as Date)
         
         return Int(string)!
     }
@@ -481,7 +481,7 @@ class SolPlayer {
         //let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
         //let assetURL = song.valueForProperty(SongPropertyAssetURL) as! NSURL
         //audioFile = try AVAudioFile(forReading: url)
-        audioFile = try AVAudioFile(forReading: _song.assetURL!)
+        audioFile = try AVAudioFile(forReading: _song.assetURL! as URL)
         
         //サンプルレートの取得
         sampleRate = audioFile.fileFormat.sampleRate
@@ -531,7 +531,7 @@ class SolPlayer {
         //AVAudioEngineにアタッチ
         /*TODO:なんか綺麗にかけないのかなぁ forEachとかで。。*/
         for i in 0 ... attachList.count-1 {
-            audioEngine.attachNode(attachList[i])
+            audioEngine.attach(attachList[i])
             if(i >= 1){
                 audioEngine.connect(attachList[i-1], to:attachList[i], format:audioFile.processingFormat)
             }
@@ -553,7 +553,7 @@ class SolPlayer {
     /** 現在の再生時刻を返す */
     func currentPlayTime() -> Float {
         
-        if audioPlayerNode.playing {
+        if audioPlayerNode.isPlaying {
             
             if(sampleRate == 0){
                 return 0
@@ -570,7 +570,7 @@ class SolPlayer {
             }
             
             //便宜上分かりやすく書いてみる
-            let playerTime = audioPlayerNode.playerTimeForNodeTime(nodeTime!)
+            let playerTime = audioPlayerNode.playerTime(forNodeTime: nodeTime!)
             let currentTime = (Double(playerTime!.sampleTime) / sampleRate)
             
             return (Float)(currentTime + offset)
@@ -640,7 +640,7 @@ class SolPlayer {
         audioPlayerNode.volume = volume
         
         //再生
-        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        audioPlayerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
         
         //リモート操作されるとpauseがうまく動かないため暫定対応 #74
         if(remoteOffset != 0.0){
@@ -656,7 +656,7 @@ class SolPlayer {
             
             if remainFrames > 100 {
                 //指定の位置から再生するようスケジューリング
-                audioPlayerNode.scheduleSegment(audioFile, startingFrame: restartPosition, frameCount: remainFrames, atTime: nil, completionHandler: nil)
+                audioPlayerNode.scheduleSegment(audioFile, startingFrame: restartPosition, frameCount: remainFrames, at: nil, completionHandler: nil)
             }
             
             //remoteOffsetを初期化
@@ -673,7 +673,7 @@ class SolPlayer {
     func pause(){
         
         //二度押し対策？
-        if !audioPlayerNode.playing {
+        if !audioPlayerNode.isPlaying {
             return
         }
         
@@ -712,7 +712,7 @@ class SolPlayer {
     func reverbChange(val: Float) {
         //リバーブを準備する
         //let reverbEffect = AVAudioUnitReverb()
-        reverbEffect.loadFactoryPreset(AVAudioUnitReverbPreset.LargeHall2)
+        reverbEffect.loadFactoryPreset(AVAudioUnitReverbPreset.largeHall2)
         reverbEffect.wetDryMix = val
         
         //return reverbEffect
@@ -726,7 +726,7 @@ class SolPlayer {
     func pitchChange(hzVal: Int32){
         
         //設定値を取得する
-        let result = config.objectForKey("solMode")
+        let result = config.object(forKey: "solMode")
         if(result != nil){
             solMode = result as! Int
         }
@@ -794,13 +794,13 @@ class SolPlayer {
         let remainFrames = AVAudioFrameCount(Float(sampleRate) * remainSeconds)
         
         //pause状態でseekbarを動かした場合→動かした後もpause状態を維持する（最後につじつま合わせる）
-        let playing = audioPlayerNode.playing
+        let playing = audioPlayerNode.isPlaying
         
         audioPlayerNode.stop()
         
         if remainFrames > 100 {
             //指定の位置から再生するようスケジューリング
-            audioPlayerNode.scheduleSegment(audioFile, startingFrame: restartPosition, frameCount: remainFrames, atTime: nil, completionHandler: nil)
+            audioPlayerNode.scheduleSegment(audioFile, startingFrame: restartPosition, frameCount: remainFrames, at: nil, completionHandler: nil)
         }
         
         audioPlayerNode.play()

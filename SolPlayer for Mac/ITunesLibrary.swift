@@ -36,7 +36,7 @@ class ITunesLibrary: NSObject {
         /*var error:NSError = NSError()*/
         
         //let data = NSData.dataWithContentsOfFile(libraryXmlPath, options:nil, error: &error)
-        let data = NSData(contentsOfURL: NSURL(fileURLWithPath: libraryXmlPath))
+        let data = NSData(contentsOf: NSURL(fileURLWithPath: libraryXmlPath) as URL)
         /*
         if data == nil {
             return error
@@ -44,7 +44,7 @@ class ITunesLibrary: NSObject {
          */
         var plist = NSMutableDictionary()
         do {
-            plist = try NSPropertyListSerialization.propertyListWithData(data!, options: NSPropertyListReadOptions(rawValue: UInt(2)), format: nil) as! NSMutableDictionary as NSMutableDictionary
+            plist = try PropertyListSerialization.propertyList(from: data! as Data, options: PropertyListSerialization.ReadOptions(rawValue: UInt(2)), format: nil) as! NSMutableDictionary as NSMutableDictionary
         } catch {
             //throw error
         }
@@ -65,12 +65,12 @@ class ITunesLibrary: NSObject {
         
         var data = NSData()
         do {
-            data = try NSPropertyListSerialization.dataWithPropertyList(libraryDict, format: NSPropertyListFormat.XMLFormat_v1_0, options: 0)
-            try data.writeToFile(ITunesLibrary.LibraryXmlFileName, options: NSDataWritingOptions.AtomicWrite)
+            data = try PropertyListSerialization.data(fromPropertyList: libraryDict, format: PropertyListSerialization.PropertyListFormat.xml, options: 0) as NSData
+            try data.write(toFile: ITunesLibrary.LibraryXmlFileName, options: NSData.WritingOptions.atomicWrite)
 
             var mpegTitlesFile = ""
             //try mpegTitlesFile.writeToFile(saveFolderPath.stringByAppendingPathComponent(ITunesLibrary.MpegTitleFileName), atomically: true, encoding: NSUTF8StringEncoding)
-            try mpegTitlesFile.writeToFile(saveFolderPath, atomically: true, encoding: NSUTF8StringEncoding)
+            try mpegTitlesFile.write(toFile: saveFolderPath, atomically: true, encoding: String.Encoding.utf8)
             
         } catch {
             //
@@ -102,9 +102,10 @@ class ITunesLibrary: NSObject {
             //print(dict["Album"])
             /* if (dict["Album"] as! String?) == title { */
             //if ((dict["Album"] as! String?)!.containsString(title)) {    // あいまい検索にする
-            if let albumName = dict["Album"] as! String? {    // あいまい検索にする
+            let dictTemp = dict as! NSDictionary?    // 型を指定してやらないとコンパイルに通らなくなってしまった（2021/10/31）
+            if let albumName = dictTemp!["Album"] as! NSString? {    // あいまい検索にする
                     //print(dict["Album"])
-                if albumName.localizedCaseInsensitiveContainsString(title) {
+                if albumName.localizedCaseInsensitiveContains(title) {
                     trackIds.append(Int(key as! String)!)
                 }
             }
@@ -182,7 +183,7 @@ class ITunesLibrary: NSObject {
             }
         }
         
-        for var i = 0; i < ids.count; i++ {
+        for i in 0 ..< ids.count {
             var track = tracks[String(ids[i])] as! NSMutableDictionary
             track["Name"] = titles[i]
             mpegTitleList.append(MpegFileTitle(path: NSURL(string: track["Location"] as! String)!.path!, title: titles[i]))

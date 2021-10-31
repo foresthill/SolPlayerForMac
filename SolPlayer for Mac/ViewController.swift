@@ -14,6 +14,8 @@ import AVKit
 
 import MediaPlayer
 
+import AppKit
+
 class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
     @IBOutlet weak var titleLabel: NSTextField!
@@ -110,7 +112,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         openPanel.allowedFileTypes = ["mp3", "wav", "m4a"]
         //print(kUTTypeAudio)
         openPanel.begin{ (result) -> Void in
-            if result is NSFileHandlingPanelOKButton {  //ファイルを選択したか（OKを押したか）
+//            if result is NSFileHandlingPanelOKButton {  //ファイルを選択したか（OKを押したか）
+            if result != nil {
                 self.url = openPanel.url! as NSURL
                 
                 //音声ファイル情報読み込み
@@ -252,10 +255,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let title = song.title
         let duration = song.durationString()
         let columnName = tableColumn?.identifier
+        let columnNameString:String = (columnName!.rawValue + "") as String
         
-        if columnName == "Title" {
+        if columnNameString == "Title" {
             return title as AnyObject
-        } else if columnName == "Duration" {
+        } else if columnNameString == "Duration" {
             return duration as AnyObject
         }
         return "" as AnyObject
@@ -357,7 +361,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
 
         //再生・一時再生ボタンをセット
-        setPlayLabel(playing: solPlayer.audioPlayerNode.playing)
+        setPlayLabel(playing: solPlayer.audioPlayerNode.isPlaying)
 
     }
 
@@ -388,7 +392,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         //print(searchAlbum.stringValue)
         //print(trackIds)
         for trackId in trackIds {
-            solPlayer.playlist.append(Song(title:iTunes.songTitle(id: trackId), assetURL:iTunes.songAssetURL(trackId)))
+            solPlayer.playlist.append(Song(title:iTunes.songTitle(id: trackId), assetURL:iTunes.songAssetURL(id: trackId)))
             //print(iTunes.songAssetURL(trackId))
         }
         
