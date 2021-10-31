@@ -37,19 +37,16 @@ class ITunesLibrary: NSObject {
         
         //let data = NSData.dataWithContentsOfFile(libraryXmlPath, options:nil, error: &error)
         let data = NSData(contentsOf: NSURL(fileURLWithPath: libraryXmlPath) as URL)
-        /*
-        if data == nil {
-            return error
-        }
-         */
         var plist = NSMutableDictionary()
-        do {
-            plist = try PropertyListSerialization.propertyList(from: data! as Data, options: PropertyListSerialization.ReadOptions(rawValue: UInt(2)), format: nil) as! NSMutableDictionary as NSMutableDictionary
-        } catch {
-            //throw error
+        if data != nil {
+            do {
+                plist = try PropertyListSerialization.propertyList(from: data! as Data, options: PropertyListSerialization.ReadOptions(rawValue: UInt(2)), format: nil) as! NSMutableDictionary as NSMutableDictionary
+            } catch {
+                //throw error
+            }
+            libraryDict = plist
+            mpegTitleList = []
         }
-        libraryDict = plist
-        mpegTitleList = []
         //print(data)
         //print(plist)
         /*
