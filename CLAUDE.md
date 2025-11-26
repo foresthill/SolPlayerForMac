@@ -7,11 +7,11 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 
 ### TODO List
 
-#### Phase 1: Auto Layout対応
-- [ ] 現在のfixedFrame指定を削除
-- [ ] 各UI要素にAuto Layout制約を追加
-- [ ] コントロールエリア（再生ボタン、スライダー等）のレイアウト
-- [ ] テーブルビュー/アウトラインビューのリサイズ対応
+#### Phase 1: Auto Layout対応 [DONE]
+- [x] 各UI要素にAuto Layout制約を追加（Swiftコードで実装）
+- [x] コントロールエリア（再生ボタン、スライダー等）のレイアウト
+- [x] テーブルビュー/アウトラインビューのリサイズ対応
+- [x] 新規IBOutlet追加（ボタン、タイトルラベル等）
 
 #### Phase 2: モダンなmacOSデザイン
 - [ ] ビジュアルエフェクトビュー（背景ぼかし）の検討
@@ -28,7 +28,24 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 - [ ] 各要素のリサイズ動作確認
 - [ ] レスポンシブなレイアウト調整
 
+### Implementation Notes
+
+#### Phase 1で追加したもの
+- `setupConstraints()` - Auto Layout制約をプログラマティックに設定
+- `setupStyles()` - UIスタイルを統一的に設定
+- `enableAutoLayout(for:)` - ビューのtranslatesAutoresizingMaskIntoConstraintsをfalseに設定
+
+#### 新規追加IBOutlet
+- Playback: `prevButton`, `stopButton`, `playButton`, `loadButton`
+- Hz: `hzTitleLabel`, `to437Button`
+- Speed: `speedTitleLabel`, `speed1xButton`, `speed2xButton`, `speed4xButton`, `speed8xButton`
+- Reverb: `reverbTitleLabel`
+- Views: `outlineScrollView`
+
+### Files Modified
+- `SolPlayer for Mac/ViewController.swift`
+- `SolPlayer for Mac/Base.lproj/Main.storyboard`
+
 ### Notes
-- Storyboard: `SolPlayer for Mac/Base.lproj/Main.storyboard`
-- Main ViewController: `SolPlayer for Mac/ViewController.swift`
 - Swift 4.2対応
+- IBOutlet接続はStoryboard XML直接編集で追加
