@@ -107,6 +107,18 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     private func setupConstraints() {
         guard let mainView = self.view as? NSView else { return }
 
+        // デバッグ: nil チェック
+        print("=== IBOutlet Connection Check ===")
+        print("prevButton: \(prevButton != nil)")
+        print("stopButton: \(stopButton != nil)")
+        print("playButton: \(playButton != nil)")
+        print("loadButton: \(loadButton != nil)")
+        print("hzTitleLabel: \(hzTitleLabel != nil)")
+        print("speedTitleLabel: \(speedTitleLabel != nil)")
+        print("reverbTitleLabel: \(reverbTitleLabel != nil)")
+        print("outlineScrollView: \(outlineScrollView != nil)")
+        print("=================================")
+
         // 全ての要素でAuto Layoutを有効化
         enableAutoLayout(for: mainView)
 
@@ -617,7 +629,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     
     /* 検索 */
-    @IBAction func searchAlbumAction(sender: AnyObject) {
+    @IBAction func searchAlbumAction(_ sender: AnyObject) {
         // 空検索の場合は何もしない
         if (searchAlbum.stringValue.isEmpty) {
             return
