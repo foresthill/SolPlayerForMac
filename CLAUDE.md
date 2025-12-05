@@ -13,10 +13,10 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 - [x] テーブルビュー/アウトラインビューのリサイズ対応
 - [x] 新規IBOutlet追加（ボタン、タイトルラベル等）
 
-#### Phase 2: モダンなmacOSデザイン
-- [ ] ビジュアルエフェクトビュー（背景ぼかし）の検討
-- [ ] システムカラーの活用
-- [ ] フォントスタイルの統一
+#### Phase 2: モダンなmacOSデザイン [DONE]
+- [x] ビジュアルエフェクトビュー（背景ぼかし）の追加
+- [x] システムカラーの活用（ダークモード自動対応）
+- [x] フォントスタイルの統一
 
 #### Phase 3: ボタン/スライダーのスタイル更新
 - [ ] 再生コントロールボタンをSF Symbolsに変更
@@ -34,6 +34,13 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 - `setupConstraints()` - Auto Layout制約をプログラマティックに設定
 - `setupStyles()` - UIスタイルを統一的に設定
 - `enableAutoLayout(for:)` - ビューのtranslatesAutoresizingMaskIntoConstraintsをfalseに設定
+
+#### Phase 2で追加したもの
+- `setupVisualEffectBackground()` - NSVisualEffectViewで背景ぼかし効果
+- `setupTableViewStyles()` - テーブル/アウトラインビューのスタイル設定
+- `createControlPanelBackground(for:)` - コントロールパネル用背景（将来用）
+- システムカラー: `labelColor`, `secondaryLabelColor`, `tertiaryLabelColor`, `separatorColor`
+- 等幅数字フォント: `monospacedDigitSystemFont` で数値表示を統一
 
 #### 新規追加IBOutlet
 - Playback: `prevButton`, `stopButton`, `playButton`, `loadButton`

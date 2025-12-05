@@ -95,6 +95,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         // iTunes Library読み込み
         openLibrary(path: ITunesLibrary.XmlFilePath())
 
+        // ビジュアルエフェクト背景をセットアップ（Auto Layout前に追加）
+        setupVisualEffectBackground()
+
         // Auto Layoutセットアップ
         setupConstraints()
 
@@ -319,27 +322,136 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     // MARK: - Style Setup
 
     private func setupStyles() {
-        // タイトルラベルのスタイル
+        // 注: 背景はNSVisualEffectViewで処理されるため、
+        // view.layer?.backgroundColorは設定しない
+
+        // MARK: Song Info Labels
         titleLabel?.font = NSFont.systemFont(ofSize: 20, weight: .semibold)
+        titleLabel?.textColor = NSColor.labelColor
+
         artistLabel?.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         artistLabel?.textColor = NSColor.secondaryLabelColor
 
-        // スライダーラベルのスタイル統一
-        let labelFont = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .regular)
-        hzLabel?.font = labelFont
-        speedLabel?.font = labelFont
-        reverbLabel?.font = labelFont
-        volumeLabel?.font = labelFont
-        nowTimeLabel?.font = labelFont
-        endTimeLabel?.font = labelFont
+        playlistLabel?.font = NSFont.systemFont(ofSize: 11, weight: .medium)
+        playlistLabel?.textColor = NSColor.tertiaryLabelColor
 
-        // ラベルの色
-        hzLabel?.textColor = NSColor.secondaryLabelColor
-        speedLabel?.textColor = NSColor.secondaryLabelColor
-        reverbLabel?.textColor = NSColor.secondaryLabelColor
-        volumeLabel?.textColor = NSColor.secondaryLabelColor
+        // MARK: Control Title Labels（Hz, Speed, Reverb）
+        let titleFont = NSFont.systemFont(ofSize: 12, weight: .medium)
+        let titleColor = NSColor.secondaryLabelColor
+
+        hzTitleLabel?.font = titleFont
+        hzTitleLabel?.textColor = titleColor
+
+        speedTitleLabel?.font = titleFont
+        speedTitleLabel?.textColor = titleColor
+
+        reverbTitleLabel?.font = titleFont
+        reverbTitleLabel?.textColor = titleColor
+
+        // MARK: Value Labels（数値表示用 - 等幅フォント）
+        let valueFont = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .regular)
+        let valueColor = NSColor.secondaryLabelColor
+
+        hzLabel?.font = valueFont
+        hzLabel?.textColor = valueColor
+
+        speedLabel?.font = valueFont
+        speedLabel?.textColor = valueColor
+
+        reverbLabel?.font = valueFont
+        reverbLabel?.textColor = valueColor
+
+        volumeLabel?.font = valueFont
+        volumeLabel?.textColor = valueColor
+
+        // MARK: Time Labels（再生時間表示）
+        let timeFont = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .medium)
+        nowTimeLabel?.font = timeFont
+        nowTimeLabel?.textColor = NSColor.labelColor
+
+        endTimeLabel?.font = timeFont
+        endTimeLabel?.textColor = NSColor.tertiaryLabelColor
+
+        // MARK: Artwork Image Style
+        artworkImage?.wantsLayer = true
+        artworkImage?.layer?.cornerRadius = 8
+        artworkImage?.layer?.masksToBounds = true
+        artworkImage?.layer?.borderWidth = 0.5
+        artworkImage?.layer?.borderColor = NSColor.separatorColor.cgColor
+
+        // MARK: Table/Outline View Style
+        setupTableViewStyles()
     }
-    
+
+    private func setupTableViewStyles() {
+        // Song Table View
+        songTableView?.backgroundColor = NSColor.controlBackgroundColor
+        songTableView?.gridColor = NSColor.separatorColor
+        songTableView?.usesAlternatingRowBackgroundColors = true
+
+        // Playlist Outline View
+        playlistOutlineView?.backgroundColor = NSColor.controlBackgroundColor
+        playlistOutlineView?.usesAlternatingRowBackgroundColors = true
+
+        // Scroll View Borders
+        playlistSchrollView?.wantsLayer = true
+        playlistSchrollView?.layer?.cornerRadius = 6
+        playlistSchrollView?.layer?.borderWidth = 1
+        playlistSchrollView?.layer?.borderColor = NSColor.separatorColor.cgColor
+
+        outlineScrollView?.wantsLayer = true
+        outlineScrollView?.layer?.cornerRadius = 6
+        outlineScrollView?.layer?.borderWidth = 1
+        outlineScrollView?.layer?.borderColor = NSColor.separatorColor.cgColor
+    }
+
+    // MARK: - Visual Effect Background
+
+    /// コントロールエリアに背景ぼかしエフェクトを追加
+    /// 注意: この機能はmacOS 10.10+で利用可能
+    private func setupVisualEffectBackground() {
+        // メインビューの背景にビジュアルエフェクトを適用
+        let visualEffectView = NSVisualEffectView()
+        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
+        visualEffectView.material = .sidebar  // サイドバー風の外観
+        visualEffectView.blendingMode = .behindWindow
+        visualEffectView.state = .active
+
+        // ビューの最背面に追加
+        view.addSubview(visualEffectView, positioned: .below, relativeTo: view.subviews.first)
+
+        NSLayoutConstraint.activate([
+            visualEffectView.topAnchor.constraint(equalTo: view.topAnchor),
+            visualEffectView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            visualEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            visualEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+
+    /// コントロールパネル用の半透明背景を作成
+    private func createControlPanelBackground(for controlViews: [NSView]) {
+        for controlView in controlViews {
+            guard let superview = controlView.superview else { continue }
+
+            let backgroundView = NSVisualEffectView()
+            backgroundView.translatesAutoresizingMaskIntoConstraints = false
+            backgroundView.material = .popover
+            backgroundView.blendingMode = .withinWindow
+            backgroundView.state = .active
+            backgroundView.wantsLayer = true
+            backgroundView.layer?.cornerRadius = 8
+
+            superview.addSubview(backgroundView, positioned: .below, relativeTo: controlView)
+
+            NSLayoutConstraint.activate([
+                backgroundView.topAnchor.constraint(equalTo: controlView.topAnchor, constant: -4),
+                backgroundView.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: -8),
+                backgroundView.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: 8),
+                backgroundView.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: 4)
+            ])
+        }
+    }
+
     //func readFileAudio() -> NSURL {
     func readFileAudio() {
         //ダイアログ
