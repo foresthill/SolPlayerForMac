@@ -83,6 +83,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     // 曲
     var trackIds: [Int] = []
 
+    // 再生時間更新用タイマー
+    var playbackTimer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +107,32 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         setupStyles()
     }
 
+    override func viewDidAppear() {
+        super.viewDidAppear()
+
+        // ウィンドウサイズ制約を設定
+        setupWindowConstraints()
+    }
+
+    // MARK: - Window Size Constraints
+
+    private func setupWindowConstraints() {
+        guard let window = view.window else { return }
+
+        // 最小サイズ: コントロールが収まる最小限のサイズ
+        window.minSize = NSSize(width: 700, height: 520)
+
+        // 最大サイズ: 画面サイズに制限（任意）
+        window.maxSize = NSSize(width: 1400, height: 900)
+
+        // 現在のサイズが最小サイズより小さい場合は調整
+        if window.frame.width < window.minSize.width || window.frame.height < window.minSize.height {
+            let newWidth = max(window.frame.width, window.minSize.width)
+            let newHeight = max(window.frame.height, window.minSize.height)
+            window.setContentSize(NSSize(width: newWidth, height: newHeight))
+        }
+    }
+
     // MARK: - Auto Layout Setup
 
     private func setupConstraints() {
@@ -120,12 +148,27 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let buttonHeight: CGFloat = 28
         let sliderWidth: CGFloat = 120
 
+        // MARK: Search & Load Button (Top Center) - 先に配置
+        if let searchAlbum = searchAlbum, let loadButton = loadButton {
+            NSLayoutConstraint.activate([
+                loadButton.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
+                loadButton.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
+                loadButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+                loadButton.widthAnchor.constraint(equalToConstant: 36),
+
+                searchAlbum.centerYAnchor.constraint(equalTo: loadButton.centerYAnchor),
+                searchAlbum.leadingAnchor.constraint(equalTo: loadButton.trailingAnchor, constant: smallPadding),
+                searchAlbum.widthAnchor.constraint(equalToConstant: 150),
+            ])
+        }
+
         // MARK: Song Info Area (Top Left)
-        if let titleLabel = titleLabel, let artistLabel = artistLabel {
+        if let titleLabel = titleLabel, let artistLabel = artistLabel, let loadButton = loadButton {
             NSLayoutConstraint.activate([
                 titleLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
                 titleLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
-                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: mainView.centerXAnchor, constant: -padding),
+                // ロードボタンの左側までに制限（重なり防止）
+                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: loadButton.leadingAnchor, constant: -padding),
 
                 artistLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
                 artistLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -134,28 +177,17 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
 
         // MARK: Artwork & Playlist Label (Top Right)
-        if let artworkImage = artworkImage, let playlistLabel = playlistLabel {
+        if let artworkImage = artworkImage, let playlistLabel = playlistLabel, let searchAlbum = searchAlbum {
             NSLayoutConstraint.activate([
                 artworkImage.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
                 artworkImage.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding),
                 artworkImage.widthAnchor.constraint(equalToConstant: 64),
                 artworkImage.heightAnchor.constraint(equalToConstant: 64),
 
-                playlistLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
-                playlistLabel.trailingAnchor.constraint(equalTo: artworkImage.leadingAnchor, constant: -smallPadding),
-            ])
-        }
-
-        // MARK: Search & Load Button (Top Center)
-        if let searchAlbum = searchAlbum, let loadButton = loadButton {
-            NSLayoutConstraint.activate([
-                loadButton.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
-                loadButton.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
-                loadButton.heightAnchor.constraint(equalToConstant: buttonHeight),
-
-                searchAlbum.centerYAnchor.constraint(equalTo: loadButton.centerYAnchor),
-                searchAlbum.leadingAnchor.constraint(equalTo: loadButton.trailingAnchor, constant: smallPadding),
-                searchAlbum.widthAnchor.constraint(equalToConstant: 150),
+                // プレイリストラベルをアートワークの下に配置
+                playlistLabel.topAnchor.constraint(equalTo: artworkImage.bottomAnchor, constant: 4),
+                playlistLabel.trailingAnchor.constraint(equalTo: artworkImage.trailingAnchor),
+                playlistLabel.leadingAnchor.constraint(greaterThanOrEqualTo: searchAlbum.trailingAnchor, constant: smallPadding),
             ])
         }
 
@@ -571,30 +603,32 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     
     @IBAction func playButtonAction(sender: AnyObject) {
+        // 一時停止中なら再開
+        if solPlayer.audioPlayerNode != nil && !solPlayer.audioPlayerNode.isPlaying && solPlayer.pausedTime > 0 {
+            solPlayer.audioPlayerNode.play()
+            startPlaybackTimer()
+            return
+        }
+
         // とりあえず最後に読み込んだ曲を再生（2021/10/31）
         solPlayer.song = solPlayer.playlist.last
-//        if url != nil {
-//        dump(solPlayer.song)
         if solPlayer.song.assetURL != nil {
             do {
-                //print("play")
-//                try solPlayer.readAudioFile(_url: url)
                 try solPlayer.readAudioFile(_song: solPlayer.song)
-                //print("read")
                 solPlayer.startPlayer()
-                //print("start")
-                //print(solPlayer.audioPlayerNode.volume)
                 // 曲情報をセット
                 setScreen(values: true)
+                // タイマー開始
+                startPlaybackTimer()
             } catch {
                 //TODO:再生失敗時の処理
             }
         }
     }
-    
+
     @IBAction func stopButtonAction(sender: AnyObject) {
-        //print("stop")
         solPlayer.pause()
+        stopPlaybackTimer()
     }
     
     @IBAction func readFileButtonAction(sender: AnyObject) {
@@ -788,8 +822,96 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 //            print("再生ボタンに")
         }
     }
-    
-    
+
+    // MARK: - Playback Timer
+
+    /// 再生時間更新タイマーを開始
+    private func startPlaybackTimer() {
+        stopPlaybackTimer()
+        playbackTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            self?.updatePlaybackTime()
+        }
+    }
+
+    /// 再生時間更新タイマーを停止
+    private func stopPlaybackTimer() {
+        playbackTimer?.invalidate()
+        playbackTimer = nil
+    }
+
+    /// 再生時間を更新（タイマーから呼ばれる）
+    @objc private func updatePlaybackTime() {
+        guard solPlayer.audioPlayerNode.isPlaying else {
+            stopPlaybackTimer()
+            return
+        }
+
+        let currentTime = solPlayer.currentPlayTime()
+        timeSlider.floatValue = currentTime
+        nowTimeLabel.stringValue = formatTime(Double(currentTime))
+    }
+
+    /// 時間をフォーマット（秒 → MM:SS）
+    private func formatTime(_ seconds: Double) -> String {
+        let mins = Int(seconds) / 60
+        let secs = Int(seconds) % 60
+        return String(format: "%02d:%02d", mins, secs)
+    }
+
+    // MARK: - Time Slider Action
+
+    @IBAction func timeSliderAction(_ sender: NSSlider) {
+        let seekTime = sender.floatValue
+        solPlayer.timeShift(current: seekTime)
+        nowTimeLabel.stringValue = formatTime(Double(seekTime))
+    }
+
+    // MARK: - Prev/Next Button Actions
+
+    @IBAction func prevButtonAction(_ sender: AnyObject) {
+        guard solPlayer.playlist.count > 1 else { return }
+
+        // 現在の曲のインデックスを見つけて前の曲を再生
+        if solPlayer.number > 0 {
+            solPlayer.number = solPlayer.number - 1
+        } else {
+            solPlayer.number = solPlayer.playlist.count - 1  // 最後の曲に戻る
+        }
+
+        playCurrentSong()
+    }
+
+    @IBAction func nextButtonAction(_ sender: AnyObject) {
+        guard solPlayer.playlist.count > 1 else { return }
+
+        // 次の曲を再生
+        if solPlayer.number < solPlayer.playlist.count - 1 {
+            solPlayer.number = solPlayer.number + 1
+        } else {
+            solPlayer.number = 0  // 最初の曲に戻る
+        }
+
+        playCurrentSong()
+    }
+
+    /// 現在のインデックスの曲を再生
+    private func playCurrentSong() {
+        guard solPlayer.number >= 0 && solPlayer.number < solPlayer.playlist.count else { return }
+
+        let song = solPlayer.playlist[solPlayer.number]
+        guard song.assetURL != nil else { return }
+
+        do {
+            solPlayer.stop()
+            try solPlayer.readAudioFile(_song: song)
+            solPlayer.startPlayer()
+            setScreen(values: true)
+            startPlaybackTimer()
+        } catch {
+            // 再生失敗
+        }
+    }
+
     /* 検索 */
     @IBAction func searchAlbumAction(_ sender: AnyObject) {
         // 空検索の場合は何もしない

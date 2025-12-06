@@ -680,7 +680,10 @@
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="09J-pr-j1Z">
                                 <rect key="frame" x="24" y="403" width="170" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="dsr-fS-RMR"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="dsr-fS-RMR"/>
+                                <connections>
+                                    <action selector="timeSliderAction:" target="XfG-lQ-9wD" id="tim-eS-ldr"/>
+                                </connections>
                             </slider>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x6e-0N-jSR">
                                 <rect key="frame" x="107" y="350" width="39" height="32"/>
@@ -881,14 +884,6 @@
                                     <action selector="stopButtonActionWithSender:" target="XfG-lQ-9wD" id="N3w-4E-Cfq"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sV6-8Q-T44">
-                                <rect key="frame" x="156" y="350" width="42" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uuT-a9-EJL">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zAh-zC-C56">
                                 <rect key="frame" x="218" y="210" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -937,6 +932,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="prevButtonAction:" target="XfG-lQ-9wD" id="pre-vA-ctn"/>
+                                </connections>
                             </button>
                             <button tag="1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hjG-Qc-Ynw">
                                 <rect key="frame" x="215" y="272" width="64" height="32"/>

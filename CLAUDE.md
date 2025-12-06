@@ -23,20 +23,20 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 - [x] スライダーのスタイル統一
 - [x] Hzボタン、スピードボタンのデザイン改善
 
-#### Phase 4: ウィンドウリサイズ対応
-- [ ] 最小/最大ウィンドウサイズの設定
-- [ ] 各要素のリサイズ動作確認
-- [ ] レスポンシブなレイアウト調整
+#### Phase 4: ウィンドウリサイズ対応 [DONE]
+- [x] 最小/最大ウィンドウサイズの設定
+- [x] 各要素のリサイズ動作確認
+- [x] レスポンシブなレイアウト調整
 
-### バグ修正 / 機能改善 TODO
+### バグ修正 / 機能改善 [DONE]
 
 #### UI/レイアウトの問題
-- [ ] タイトルとフォルダパスの表示が被っている
-- [ ] 不要な「button」ボタンを削除（次の曲ボタン？）
+- [x] タイトルとフォルダパスの表示が被っている → レイアウト制約を調整
+- [x] 不要な「button」ボタンを削除
 
 #### 再生機能の問題
-- [ ] 時間シークバーが曲の再生時間と連動していない
-- [ ] 前の曲/次の曲ボタンが機能していない
+- [x] 時間シークバーが曲の再生時間と連動していない → タイマーで更新
+- [x] 前の曲/次の曲ボタンが機能していない → アクション実装
 
 ### Implementation Notes
 
@@ -59,6 +59,20 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 - `setupSliderStyles()` - スライダーの共通スタイル設定
 - SF Symbols: `backward.fill`, `stop.fill`, `play.fill`, `folder.badge.plus`
 - デプロイメントターゲット: 10.14 → 11.0（Big Sur）に更新
+
+#### Phase 4で追加したもの
+- `setupWindowConstraints()` - ウィンドウの最小/最大サイズを設定
+- 最小サイズ: 700x520、最大サイズ: 1400x900
+- レイアウト制約の調整（タイトルとロードボタンの重なり防止）
+
+#### バグ修正で追加したもの
+- `playbackTimer` - 再生時間更新用タイマー
+- `startPlaybackTimer()` / `stopPlaybackTimer()` - タイマー制御
+- `updatePlaybackTime()` - スライダーと時間ラベルを更新
+- `formatTime()` - 秒をMM:SS形式にフォーマット
+- `timeSliderAction()` - シークバー操作時のアクション
+- `prevButtonAction()` / `nextButtonAction()` - 前後曲ボタン
+- `playCurrentSong()` - 指定インデックスの曲を再生
 
 #### 新規追加IBOutlet
 - Playback: `prevButton`, `stopButton`, `playButton`, `loadButton`
