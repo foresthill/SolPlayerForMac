@@ -443,9 +443,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             guard let slider = slider else { continue }
             slider.controlSize = .regular
         }
-
-        // タイムスライダー - アクセントカラー
-        timeSlider?.controlTintColor = NSColor.controlAccentColor
     }
 
     private func setupTableViewStyles() {
