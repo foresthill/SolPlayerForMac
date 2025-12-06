@@ -39,7 +39,7 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 - `setupVisualEffectBackground()` - NSVisualEffectViewで背景ぼかし効果
 - `setupTableViewStyles()` - テーブル/アウトラインビューのスタイル設定
 - `createControlPanelBackground(for:)` - コントロールパネル用背景（将来用）
-- システムカラー: `labelColor`, `secondaryLabelColor`, `tertiaryLabelColor`, `gridColor`
+- システムカラー: `labelColor`, `secondaryLabelColor`, `tertiaryLabelColor`, `separatorColor`
 - 等幅数字フォント: `monospacedDigitSystemFont` で数値表示を統一
 
 #### 新規追加IBOutlet
