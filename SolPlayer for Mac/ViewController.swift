@@ -377,7 +377,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         artworkImage?.layer?.cornerRadius = 8
         artworkImage?.layer?.masksToBounds = true
         artworkImage?.layer?.borderWidth = 0.5
-        artworkImage?.layer?.borderColor = NSColor.separatorColor.cgColor
+        artworkImage?.layer?.borderColor = NSColor.gridColor.cgColor
 
         // MARK: Table/Outline View Style
         setupTableViewStyles()
@@ -386,7 +386,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     private func setupTableViewStyles() {
         // Song Table View
         songTableView?.backgroundColor = NSColor.controlBackgroundColor
-        songTableView?.gridColor = NSColor.separatorColor
+        songTableView?.gridColor = NSColor.gridColor
         songTableView?.usesAlternatingRowBackgroundColors = true
 
         // Playlist Outline View
@@ -397,12 +397,12 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         playlistSchrollView?.wantsLayer = true
         playlistSchrollView?.layer?.cornerRadius = 6
         playlistSchrollView?.layer?.borderWidth = 1
-        playlistSchrollView?.layer?.borderColor = NSColor.separatorColor.cgColor
+        playlistSchrollView?.layer?.borderColor = NSColor.gridColor.cgColor
 
         outlineScrollView?.wantsLayer = true
         outlineScrollView?.layer?.cornerRadius = 6
         outlineScrollView?.layer?.borderWidth = 1
-        outlineScrollView?.layer?.borderColor = NSColor.separatorColor.cgColor
+        outlineScrollView?.layer?.borderColor = NSColor.gridColor.cgColor
     }
 
     // MARK: - Visual Effect Background
