@@ -18,10 +18,10 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 - [x] システムカラーの活用（ダークモード自動対応）
 - [x] フォントスタイルの統一
 
-#### Phase 3: ボタン/スライダーのスタイル更新
-- [ ] 再生コントロールボタンをSF Symbolsに変更
-- [ ] スライダーのスタイル統一
-- [ ] Hzボタン、スピードボタンのデザイン改善
+#### Phase 3: ボタン/スライダーのスタイル更新 [DONE]
+- [x] 再生コントロールボタンをSF Symbolsに変更
+- [x] スライダーのスタイル統一
+- [x] Hzボタン、スピードボタンのデザイン改善
 
 #### Phase 4: ウィンドウリサイズ対応
 - [ ] 最小/最大ウィンドウサイズの設定
@@ -41,6 +41,14 @@ macOS用音楽プレイヤーアプリ（ソルフェジオ周波数対応）
 - `createControlPanelBackground(for:)` - コントロールパネル用背景（将来用）
 - システムカラー: `labelColor`, `secondaryLabelColor`, `tertiaryLabelColor`, `separatorColor`
 - 等幅数字フォント: `monospacedDigitSystemFont` で数値表示を統一
+
+#### Phase 3で追加したもの
+- `setupButtonStyles()` - ボタンスタイルの設定
+- `configurePlaybackButton()` - SF Symbolsで再生ボタンを設定
+- `configurePresetButton()` - プリセットボタン（Hz、Speed）のスタイル設定
+- `setupSliderStyles()` - スライダーの共通スタイル設定
+- SF Symbols: `backward.fill`, `stop.fill`, `play.fill`, `folder.badge.plus`
+- デプロイメントターゲット: 10.14 → 11.0（Big Sur）に更新
 
 #### 新規追加IBOutlet
 - Playback: `prevButton`, `stopButton`, `playButton`, `loadButton`

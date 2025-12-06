@@ -379,8 +379,73 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         artworkImage?.layer?.borderWidth = 0.5
         artworkImage?.layer?.borderColor = NSColor.separatorColor.cgColor
 
+        // MARK: Button & Slider Styles
+        setupButtonStyles()
+        setupSliderStyles()
+
         // MARK: Table/Outline View Style
         setupTableViewStyles()
+    }
+
+    // MARK: - Button Styles
+
+    private func setupButtonStyles() {
+        // 再生コントロールボタン - SF Symbols
+        configurePlaybackButton(prevButton, symbolName: "backward.fill", pointSize: 16)
+        configurePlaybackButton(stopButton, symbolName: "stop.fill", pointSize: 16)
+        configurePlaybackButton(playButton, symbolName: "play.fill", pointSize: 18)
+        configurePlaybackButton(loadButton, symbolName: "folder.badge.plus", pointSize: 14)
+
+        // Hzプリセットボタン
+        configurePresetButton(to432Button)
+        configurePresetButton(to437Button)
+        configurePresetButton(to444Button)
+
+        // スピードプリセットボタン
+        configurePresetButton(speed1xButton)
+        configurePresetButton(speed2xButton)
+        configurePresetButton(speed4xButton)
+        configurePresetButton(speed8xButton)
+    }
+
+    private func configurePlaybackButton(_ button: NSButton?, symbolName: String, pointSize: CGFloat) {
+        guard let button = button else { return }
+
+        let config = NSImage.SymbolConfiguration(pointSize: pointSize, weight: .medium)
+        if let image = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil) {
+            let configuredImage = image.withSymbolConfiguration(config)
+            button.image = configuredImage
+            button.imagePosition = .imageOnly
+        }
+
+        button.bezelStyle = .regularSquare
+        button.isBordered = false
+        button.wantsLayer = true
+        button.contentTintColor = NSColor.controlAccentColor
+    }
+
+    private func configurePresetButton(_ button: NSButton?) {
+        guard let button = button else { return }
+
+        button.bezelStyle = .roundRect
+        button.font = NSFont.systemFont(ofSize: 11, weight: .medium)
+        button.wantsLayer = true
+        button.layer?.cornerRadius = 4
+    }
+
+    // MARK: - Slider Styles
+
+    private func setupSliderStyles() {
+        // 全スライダーの共通スタイル
+        let sliders = [timeSlider, hzSlider, speedSlider, reverbSlider, volumeSlider]
+
+        for slider in sliders {
+            guard let slider = slider else { continue }
+            slider.controlSize = .regular
+        }
+
+        // タイムスライダー - アクセントカラー
+        timeSlider?.controlTintColor = NSColor.controlAccentColor
     }
 
     private func setupTableViewStyles() {
