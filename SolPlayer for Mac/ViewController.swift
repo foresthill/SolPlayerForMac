@@ -60,6 +60,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     // MARK: - Volume Controls
     @IBOutlet weak var volumeSlider: NSSlider!
     @IBOutlet weak var volumeLabel: NSTextField!
+    @IBOutlet weak var volumeTitleLabel: NSTextField!
 
     // MARK: - Playlist Views
     @IBOutlet weak var playlistSchrollView: NSScrollView!
@@ -148,27 +149,30 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let buttonHeight: CGFloat = 28
         let sliderWidth: CGFloat = 120
 
-        // MARK: Search & Load Button (Top Center) - 先に配置
+        // MARK: Search & Load Button (Top Center) - 検索が左、ロードが右
         if let searchAlbum = searchAlbum, let loadButton = loadButton {
             NSLayoutConstraint.activate([
-                loadButton.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
-                loadButton.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
+                // 検索フィールドを中央に配置
+                searchAlbum.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
+                searchAlbum.centerXAnchor.constraint(equalTo: mainView.centerXAnchor, constant: -20),
+                searchAlbum.widthAnchor.constraint(equalToConstant: 150),
+                searchAlbum.heightAnchor.constraint(equalToConstant: buttonHeight),
+
+                // ロードボタンを検索の右に配置
+                loadButton.centerYAnchor.constraint(equalTo: searchAlbum.centerYAnchor),
+                loadButton.leadingAnchor.constraint(equalTo: searchAlbum.trailingAnchor, constant: smallPadding),
                 loadButton.heightAnchor.constraint(equalToConstant: buttonHeight),
                 loadButton.widthAnchor.constraint(equalToConstant: 36),
-
-                searchAlbum.centerYAnchor.constraint(equalTo: loadButton.centerYAnchor),
-                searchAlbum.leadingAnchor.constraint(equalTo: loadButton.trailingAnchor, constant: smallPadding),
-                searchAlbum.widthAnchor.constraint(equalToConstant: 150),
             ])
         }
 
         // MARK: Song Info Area (Top Left)
-        if let titleLabel = titleLabel, let artistLabel = artistLabel, let loadButton = loadButton {
+        if let titleLabel = titleLabel, let artistLabel = artistLabel, let searchAlbum = searchAlbum {
             NSLayoutConstraint.activate([
                 titleLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
                 titleLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
-                // ロードボタンの左側までに制限（重なり防止）
-                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: loadButton.leadingAnchor, constant: -padding),
+                // 検索フィールドの左側までに制限（重なり防止）
+                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: searchAlbum.leadingAnchor, constant: -padding),
 
                 artistLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
                 artistLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -177,7 +181,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
 
         // MARK: Artwork & Playlist Label (Top Right)
-        if let artworkImage = artworkImage, let playlistLabel = playlistLabel, let searchAlbum = searchAlbum {
+        if let artworkImage = artworkImage, let playlistLabel = playlistLabel, let loadButton = loadButton {
             NSLayoutConstraint.activate([
                 artworkImage.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
                 artworkImage.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding),
@@ -187,7 +191,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 // プレイリストラベルをアートワークの下に配置
                 playlistLabel.topAnchor.constraint(equalTo: artworkImage.bottomAnchor, constant: 4),
                 playlistLabel.trailingAnchor.constraint(equalTo: artworkImage.trailingAnchor),
-                playlistLabel.leadingAnchor.constraint(greaterThanOrEqualTo: searchAlbum.trailingAnchor, constant: smallPadding),
+                playlistLabel.leadingAnchor.constraint(greaterThanOrEqualTo: loadButton.trailingAnchor, constant: smallPadding),
             ])
         }
 
@@ -315,17 +319,27 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             ])
         }
 
-        // MARK: Volume Slider (Vertical)
+        // MARK: Volume Slider (Vertical) with Title
         if let volumeSlider = volumeSlider, let volumeLabel = volumeLabel {
             NSLayoutConstraint.activate([
-                volumeSlider.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 180),
+                // ボリュームスライダー
+                volumeSlider.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 200),
                 volumeSlider.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding - 80),
                 volumeSlider.widthAnchor.constraint(equalToConstant: 24),
-                volumeSlider.heightAnchor.constraint(equalToConstant: 100),
+                volumeSlider.heightAnchor.constraint(equalToConstant: 80),
 
+                // 数値ラベル（スライダーの下）
                 volumeLabel.topAnchor.constraint(equalTo: volumeSlider.bottomAnchor, constant: 4),
                 volumeLabel.centerXAnchor.constraint(equalTo: volumeSlider.centerXAnchor),
             ])
+
+            // Volタイトルラベル（スライダーの上）
+            if let volumeTitleLabel = volumeTitleLabel {
+                NSLayoutConstraint.activate([
+                    volumeTitleLabel.bottomAnchor.constraint(equalTo: volumeSlider.topAnchor, constant: -4),
+                    volumeTitleLabel.centerXAnchor.constraint(equalTo: volumeSlider.centerXAnchor),
+                ])
+            }
         }
 
         // MARK: Playlist Tables (Bottom)
@@ -379,6 +393,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
         reverbTitleLabel?.font = titleFont
         reverbTitleLabel?.textColor = titleColor
+
+        volumeTitleLabel?.font = titleFont
+        volumeTitleLabel?.textColor = titleColor
 
         // MARK: Value Labels（数値表示用 - 等幅フォント）
         let valueFont = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .regular)
