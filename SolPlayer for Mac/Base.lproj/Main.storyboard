@@ -680,7 +680,10 @@
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="09J-pr-j1Z">
                                 <rect key="frame" x="24" y="403" width="170" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="dsr-fS-RMR"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="dsr-fS-RMR"/>
+                                <connections>
+                                    <action selector="timeSliderAction:" target="XfG-lQ-9wD" id="tim-eS-ldr"/>
+                                </connections>
                             </slider>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x6e-0N-jSR">
                                 <rect key="frame" x="107" y="350" width="39" height="32"/>
@@ -881,14 +884,6 @@
                                     <action selector="stopButtonActionWithSender:" target="XfG-lQ-9wD" id="N3w-4E-Cfq"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sV6-8Q-T44">
-                                <rect key="frame" x="156" y="350" width="42" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uuT-a9-EJL">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zAh-zC-C56">
                                 <rect key="frame" x="218" y="210" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -937,6 +932,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="prevButtonAction:" target="XfG-lQ-9wD" id="pre-vA-ctn"/>
+                                </connections>
                             </button>
                             <button tag="1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hjG-Qc-Ynw">
                                 <rect key="frame" x="215" y="272" width="64" height="32"/>
@@ -988,6 +986,15 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="50" id="mmf-0q-2jJ">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vol-Ti-tle">
+                                <rect key="frame" x="428" y="360" width="30" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Vol" id="vol-Ti-cel">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
@@ -1238,25 +1245,39 @@
                         <outlet property="endTimeLabel" destination="XuF-hD-FeV" id="hJB-xJ-8uN"/>
                         <outlet property="hzLabel" destination="akm-4p-ye5" id="b03-Ag-TKg"/>
                         <outlet property="hzSlider" destination="gVl-NV-p2C" id="KZL-Nt-qS9"/>
+                        <outlet property="hzTitleLabel" destination="Z6j-o9-jrI" id="hz1-Ti-tle"/>
+                        <outlet property="loadButton" destination="pOx-bm-UaC" id="loa-dB-utn"/>
                         <outlet property="nowTimeLabel" destination="GMK-M0-XTd" id="2bA-oM-aQZ"/>
+                        <outlet property="outlineScrollView" destination="hZ1-mS-Kd9" id="out-Sc-rll"/>
+                        <outlet property="playButton" destination="x6e-0N-jSR" id="pla-yB-utn"/>
                         <outlet property="playlist2column" destination="yDO-Ek-HfB" id="CTb-Sa-gy0"/>
                         <outlet property="playlist2column2" destination="3ob-68-SRp" id="Ahw-td-O34"/>
                         <outlet property="playlistHeaderView" destination="5R0-fs-l7D" id="26I-Sk-yPa"/>
                         <outlet property="playlistLabel" destination="Ush-DZ-bFb" id="7F0-zz-8XL"/>
                         <outlet property="playlistOutlineView" destination="sAW-VY-Zmb" id="wgz-bL-Uxa"/>
                         <outlet property="playlistSchrollView" destination="Gnn-K6-SRg" id="3F5-jM-oXc"/>
+                        <outlet property="prevButton" destination="0Mi-ZW-Mx7" id="pre-vB-utn"/>
                         <outlet property="reverbLabel" destination="a73-gr-Ngt" id="p8u-kw-AC9"/>
                         <outlet property="reverbSlider" destination="e29-Bi-5RR" id="iYC-h3-ZHo"/>
+                        <outlet property="reverbTitleLabel" destination="ZEZ-dH-yrY" id="rev-Ti-tle"/>
                         <outlet property="searchAlbum" destination="TXu-rD-mQg" id="HCF-NZ-eig"/>
                         <outlet property="songTableView" destination="cah-PE-waY" id="5cd-6T-PO4"/>
+                        <outlet property="speed1xButton" destination="hjG-Qc-Ynw" id="sp1-xB-utn"/>
+                        <outlet property="speed2xButton" destination="gMi-My-8aj" id="sp2-xB-utn"/>
+                        <outlet property="speed4xButton" destination="89K-Yh-kDS" id="sp4-xB-utn"/>
+                        <outlet property="speed8xButton" destination="kD9-gH-CgK" id="sp8-xB-utn"/>
                         <outlet property="speedLabel" destination="Q6l-i8-QFs" id="mE4-Eo-usI"/>
                         <outlet property="speedSlider" destination="fef-Fi-jHW" id="hIQ-1p-xdy"/>
+                        <outlet property="speedTitleLabel" destination="8CE-On-Ora" id="spd-Ti-tle"/>
+                        <outlet property="stopButton" destination="TwM-qb-Jro" id="sto-pB-utn"/>
                         <outlet property="timeSlider" destination="09J-pr-j1Z" id="YTS-wW-BJl"/>
                         <outlet property="titleLabel" destination="Zfj-87-kNI" id="FdL-Cz-d8F"/>
                         <outlet property="to432Button" destination="C8r-OP-v5Q" id="i6d-5a-KdO"/>
+                        <outlet property="to437Button" destination="U2N-4p-kaE" id="437-Hz-btn"/>
                         <outlet property="to444Button" destination="C8F-hy-YKh" id="8QK-iR-gLU"/>
                         <outlet property="volumeLabel" destination="W0T-pT-pZU" id="grS-KE-S74"/>
                         <outlet property="volumeSlider" destination="FWT-oD-5NJ" id="afm-m3-uC9"/>
+                        <outlet property="volumeTitleLabel" destination="vol-Ti-tle" id="vol-Ti-out"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
