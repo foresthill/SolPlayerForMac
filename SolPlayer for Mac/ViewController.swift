@@ -724,33 +724,25 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
     
     /** tableViewをクリックしたときの処理 */
-    func tableViewSelectionDidChange(notification: NSNotification) {
+    func tableViewSelectionDidChange(_ notification: Notification) {
         let row = songTableView.selectedRow
-        if row >= 0 {
-            if let selected = solPlayer.playlist[row].title {
-                //print("Selected: \(selected)")    //2018/05/10
-            }
-            //再生処理
-            //if let playUrl = solPlayer.playlist[row].assetURL {
-            let song:Song = solPlayer.playlist[row]
-            if song != nil {
-                    do {
-                    solPlayer.stop()
-                    //読み込み
-                    //try solPlayer.readAudioFile(playUrl)
-                        try solPlayer.readAudioFile(_song: song)
-                    //print("read")
-                    solPlayer.startPlayer()
-                    //再生時間を設定する
-                    //endTimeLabel = solPlayer.playlist[row].durationString()   //Segmentationエラーになる
-                    //再生情報を更新
-                        setScreen(values: true)
-                } catch {
-                    //print("再生できませんでした。")  //2018/05/10
-                    //再生情報を更新
-                    setScreen(values: false)
-                }
-            }
+        guard row >= 0 && row < solPlayer.playlist.count else { return }
+
+        let song = solPlayer.playlist[row]
+        guard song.assetURL != nil else { return }
+
+        // 曲番号を更新
+        solPlayer.number = row
+
+        do {
+            solPlayer.stop()
+            stopPlaybackTimer()
+            try solPlayer.readAudioFile(_song: song)
+            solPlayer.startPlayer()
+            setScreen(values: true)
+            startPlaybackTimer()
+        } catch {
+            setScreen(values: false)
         }
     }
     
@@ -857,14 +849,43 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
     /// 再生時間を更新（タイマーから呼ばれる）
     @objc private func updatePlaybackTime() {
-        guard solPlayer.audioPlayerNode.isPlaying else {
+        guard solPlayer.audioPlayerNode != nil else {
             stopPlaybackTimer()
             return
         }
 
         let currentTime = solPlayer.currentPlayTime()
+        let duration = solPlayer.duration ?? 0
+
+        // 曲が終了したかチェック（余裕を持って0.5秒前）
+        if duration > 0 && Double(currentTime) >= duration - 0.5 {
+            stopPlaybackTimer()
+            onSongFinished()
+            return
+        }
+
+        // 再生が停止している場合
+        if !solPlayer.audioPlayerNode.isPlaying {
+            stopPlaybackTimer()
+            return
+        }
+
         timeSlider.floatValue = currentTime
         nowTimeLabel.stringValue = formatTime(Double(currentTime))
+    }
+
+    /// 曲が終了した時の処理
+    private func onSongFinished() {
+        // リピートモードまたはプレイリストに次の曲がある場合
+        if solPlayer.repeatAll || solPlayer.number < solPlayer.playlist.count - 1 {
+            // 次の曲を再生
+            nextButtonAction(self)
+        } else {
+            // 再生を停止してUIをリセット
+            timeSlider.floatValue = 0
+            nowTimeLabel.stringValue = formatTime(0)
+            solPlayer.stop()
+        }
     }
 
     /// 時間をフォーマット（秒 → MM:SS）
