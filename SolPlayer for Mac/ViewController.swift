@@ -149,30 +149,30 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let buttonHeight: CGFloat = 28
         let sliderWidth: CGFloat = 120
 
-        // MARK: Search & Load Button (Top Center) - 検索が左、ロードが右
-        if let searchAlbum = searchAlbum, let loadButton = loadButton {
+        // MARK: Search & Load Button (Top Right) - 右上に配置
+        if let searchAlbum = searchAlbum, let loadButton = loadButton, let artworkImage = artworkImage {
             NSLayoutConstraint.activate([
-                // 検索フィールドを中央に配置
-                searchAlbum.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
-                searchAlbum.centerXAnchor.constraint(equalTo: mainView.centerXAnchor, constant: -20),
+                // 検索フィールドをアートワークの左に配置
+                searchAlbum.centerYAnchor.constraint(equalTo: artworkImage.centerYAnchor),
+                searchAlbum.trailingAnchor.constraint(equalTo: artworkImage.leadingAnchor, constant: -smallPadding),
                 searchAlbum.widthAnchor.constraint(equalToConstant: 150),
                 searchAlbum.heightAnchor.constraint(equalToConstant: buttonHeight),
 
-                // ロードボタンを検索の右に配置
+                // ロードボタンを検索の左に配置
                 loadButton.centerYAnchor.constraint(equalTo: searchAlbum.centerYAnchor),
-                loadButton.leadingAnchor.constraint(equalTo: searchAlbum.trailingAnchor, constant: smallPadding),
+                loadButton.trailingAnchor.constraint(equalTo: searchAlbum.leadingAnchor, constant: -smallPadding),
                 loadButton.heightAnchor.constraint(equalToConstant: buttonHeight),
                 loadButton.widthAnchor.constraint(equalToConstant: 36),
             ])
         }
 
         // MARK: Song Info Area (Top Left)
-        if let titleLabel = titleLabel, let artistLabel = artistLabel, let searchAlbum = searchAlbum {
+        if let titleLabel = titleLabel, let artistLabel = artistLabel, let loadButton = loadButton {
             NSLayoutConstraint.activate([
                 titleLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
                 titleLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
-                // 検索フィールドの左側までに制限（重なり防止）
-                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: searchAlbum.leadingAnchor, constant: -padding),
+                // ロードボタンの左側までに制限（重なり防止）
+                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: loadButton.leadingAnchor, constant: -padding),
 
                 artistLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
                 artistLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -181,7 +181,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
 
         // MARK: Artwork & Playlist Label (Top Right)
-        if let artworkImage = artworkImage, let playlistLabel = playlistLabel, let loadButton = loadButton {
+        if let artworkImage = artworkImage, let playlistLabel = playlistLabel {
             NSLayoutConstraint.activate([
                 artworkImage.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
                 artworkImage.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding),
@@ -191,7 +191,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 // プレイリストラベルをアートワークの下に配置
                 playlistLabel.topAnchor.constraint(equalTo: artworkImage.bottomAnchor, constant: 4),
                 playlistLabel.trailingAnchor.constraint(equalTo: artworkImage.trailingAnchor),
-                playlistLabel.leadingAnchor.constraint(greaterThanOrEqualTo: loadButton.trailingAnchor, constant: smallPadding),
             ])
         }
 
@@ -319,14 +318,14 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             ])
         }
 
-        // MARK: Volume Slider (Vertical) with Title
+        // MARK: Volume Slider (Vertical) with Title - 右端に配置
         if let volumeSlider = volumeSlider, let volumeLabel = volumeLabel {
             NSLayoutConstraint.activate([
-                // ボリュームスライダー
-                volumeSlider.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 200),
-                volumeSlider.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding - 80),
+                // ボリュームスライダー（アートワークの下、右端）
+                volumeSlider.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 120),
+                volumeSlider.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding - 20),
                 volumeSlider.widthAnchor.constraint(equalToConstant: 24),
-                volumeSlider.heightAnchor.constraint(equalToConstant: 80),
+                volumeSlider.heightAnchor.constraint(equalToConstant: 100),
 
                 // 数値ラベル（スライダーの下）
                 volumeLabel.topAnchor.constraint(equalTo: volumeSlider.bottomAnchor, constant: 4),
