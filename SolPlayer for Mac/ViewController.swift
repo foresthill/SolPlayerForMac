@@ -147,32 +147,43 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let smallPadding: CGFloat = 8
         let controlHeight: CGFloat = 24
         let buttonHeight: CGFloat = 28
-        let sliderWidth: CGFloat = 120
+        let sliderWidth: CGFloat = 100
 
-        // MARK: Search & Load Button (Top Right) - 右上に配置
-        if let searchAlbum = searchAlbum, let loadButton = loadButton, let artworkImage = artworkImage {
+        // MARK: Artwork (Top Right Corner)
+        if let artworkImage = artworkImage {
             NSLayoutConstraint.activate([
-                // 検索フィールドをアートワークの左に配置
-                searchAlbum.centerYAnchor.constraint(equalTo: artworkImage.centerYAnchor),
-                searchAlbum.trailingAnchor.constraint(equalTo: artworkImage.leadingAnchor, constant: -smallPadding),
-                searchAlbum.widthAnchor.constraint(equalToConstant: 150),
-                searchAlbum.heightAnchor.constraint(equalToConstant: buttonHeight),
+                artworkImage.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
+                artworkImage.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding),
+                artworkImage.widthAnchor.constraint(equalToConstant: 60),
+                artworkImage.heightAnchor.constraint(equalToConstant: 60),
+            ])
+        }
 
-                // ロードボタンを検索の左に配置
-                loadButton.centerYAnchor.constraint(equalTo: searchAlbum.centerYAnchor),
-                loadButton.trailingAnchor.constraint(equalTo: searchAlbum.leadingAnchor, constant: -smallPadding),
-                loadButton.heightAnchor.constraint(equalToConstant: buttonHeight),
-                loadButton.widthAnchor.constraint(equalToConstant: 36),
+        // MARK: Volume Controls (Right side, below artwork)
+        if let volumeSlider = volumeSlider, let volumeLabel = volumeLabel, let volumeTitleLabel = volumeTitleLabel, let artworkImage = artworkImage {
+            NSLayoutConstraint.activate([
+                // Volタイトル（アートワークの下）
+                volumeTitleLabel.topAnchor.constraint(equalTo: artworkImage.bottomAnchor, constant: smallPadding),
+                volumeTitleLabel.centerXAnchor.constraint(equalTo: artworkImage.centerXAnchor),
+
+                // 縦スライダー（Volラベルの下）
+                volumeSlider.topAnchor.constraint(equalTo: volumeTitleLabel.bottomAnchor, constant: 4),
+                volumeSlider.centerXAnchor.constraint(equalTo: volumeTitleLabel.centerXAnchor),
+                volumeSlider.widthAnchor.constraint(equalToConstant: 24),
+                volumeSlider.heightAnchor.constraint(equalToConstant: 80),
+
+                // 数値ラベル（スライダーの下）
+                volumeLabel.topAnchor.constraint(equalTo: volumeSlider.bottomAnchor, constant: 4),
+                volumeLabel.centerXAnchor.constraint(equalTo: volumeSlider.centerXAnchor),
             ])
         }
 
         // MARK: Song Info Area (Top Left)
-        if let titleLabel = titleLabel, let artistLabel = artistLabel, let loadButton = loadButton {
+        if let titleLabel = titleLabel, let artistLabel = artistLabel, let artworkImage = artworkImage {
             NSLayoutConstraint.activate([
                 titleLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
                 titleLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
-                // ロードボタンの左側までに制限（重なり防止）
-                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: loadButton.leadingAnchor, constant: -padding),
+                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: artworkImage.leadingAnchor, constant: -padding * 2),
 
                 artistLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
                 artistLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -180,62 +191,70 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             ])
         }
 
-        // MARK: Artwork & Playlist Label (Top Right)
-        if let artworkImage = artworkImage, let playlistLabel = playlistLabel {
+        // MARK: Playlist Label (Below Artist)
+        if let playlistLabel = playlistLabel, let artistLabel = artistLabel {
             NSLayoutConstraint.activate([
-                artworkImage.topAnchor.constraint(equalTo: mainView.topAnchor, constant: padding),
-                artworkImage.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding),
-                artworkImage.widthAnchor.constraint(equalToConstant: 64),
-                artworkImage.heightAnchor.constraint(equalToConstant: 64),
-
-                // プレイリストラベルをアートワークの下に配置
-                playlistLabel.topAnchor.constraint(equalTo: artworkImage.bottomAnchor, constant: 4),
-                playlistLabel.trailingAnchor.constraint(equalTo: artworkImage.trailingAnchor),
+                playlistLabel.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: 2),
+                playlistLabel.leadingAnchor.constraint(equalTo: artistLabel.leadingAnchor),
             ])
         }
 
-        // MARK: Time Slider Area
+        // MARK: Time Slider & Labels
         if let timeSlider = timeSlider, let nowTimeLabel = nowTimeLabel, let endTimeLabel = endTimeLabel {
             NSLayoutConstraint.activate([
-                timeSlider.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 90),
+                timeSlider.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 85),
                 timeSlider.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
-                timeSlider.widthAnchor.constraint(equalToConstant: 200),
+                timeSlider.widthAnchor.constraint(equalToConstant: 180),
                 timeSlider.heightAnchor.constraint(equalToConstant: controlHeight),
 
-                nowTimeLabel.topAnchor.constraint(equalTo: timeSlider.bottomAnchor, constant: 4),
+                nowTimeLabel.topAnchor.constraint(equalTo: timeSlider.bottomAnchor, constant: 2),
                 nowTimeLabel.leadingAnchor.constraint(equalTo: timeSlider.leadingAnchor),
 
-                endTimeLabel.topAnchor.constraint(equalTo: timeSlider.bottomAnchor, constant: 4),
+                endTimeLabel.topAnchor.constraint(equalTo: timeSlider.bottomAnchor, constant: 2),
                 endTimeLabel.trailingAnchor.constraint(equalTo: timeSlider.trailingAnchor),
             ])
         }
 
-        // MARK: Playback Controls
-        if let prevButton = prevButton, let stopButton = stopButton, let playButton = playButton {
+        // MARK: Playback Controls (Below time controls)
+        if let prevButton = prevButton, let stopButton = stopButton, let playButton = playButton, let loadButton = loadButton {
             NSLayoutConstraint.activate([
-                stopButton.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 130),
-                stopButton.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding + 50),
-                stopButton.heightAnchor.constraint(equalToConstant: buttonHeight),
-
-                prevButton.centerYAnchor.constraint(equalTo: stopButton.centerYAnchor),
-                prevButton.trailingAnchor.constraint(equalTo: stopButton.leadingAnchor, constant: -smallPadding),
+                prevButton.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 125),
+                prevButton.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
                 prevButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+
+                stopButton.centerYAnchor.constraint(equalTo: prevButton.centerYAnchor),
+                stopButton.leadingAnchor.constraint(equalTo: prevButton.trailingAnchor, constant: smallPadding),
+                stopButton.heightAnchor.constraint(equalToConstant: buttonHeight),
 
                 playButton.centerYAnchor.constraint(equalTo: stopButton.centerYAnchor),
                 playButton.leadingAnchor.constraint(equalTo: stopButton.trailingAnchor, constant: smallPadding),
                 playButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+
+                loadButton.centerYAnchor.constraint(equalTo: playButton.centerYAnchor),
+                loadButton.leadingAnchor.constraint(equalTo: playButton.trailingAnchor, constant: padding),
+                loadButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+                loadButton.widthAnchor.constraint(equalToConstant: 36),
             ])
         }
 
-        // MARK: Hz Controls
+        // MARK: Search Field (Next to load button)
+        if let searchAlbum = searchAlbum, let loadButton = loadButton {
+            NSLayoutConstraint.activate([
+                searchAlbum.centerYAnchor.constraint(equalTo: loadButton.centerYAnchor),
+                searchAlbum.leadingAnchor.constraint(equalTo: loadButton.trailingAnchor, constant: smallPadding),
+                searchAlbum.widthAnchor.constraint(equalToConstant: 140),
+                searchAlbum.heightAnchor.constraint(equalToConstant: buttonHeight),
+            ])
+        }
+
+        // MARK: Hz Controls (左側中段)
         if let hzTitleLabel = hzTitleLabel, let hzSlider = hzSlider, let hzLabel = hzLabel {
-            let hzTopAnchor = mainView.topAnchor
-            let hzTop: CGFloat = 180
+            let hzTop: CGFloat = 165
 
             NSLayoutConstraint.activate([
-                hzTitleLabel.topAnchor.constraint(equalTo: hzTopAnchor, constant: hzTop),
+                hzTitleLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: hzTop),
                 hzTitleLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
-                hzTitleLabel.widthAnchor.constraint(equalToConstant: 50),
+                hzTitleLabel.widthAnchor.constraint(equalToConstant: 45),
 
                 hzSlider.centerYAnchor.constraint(equalTo: hzTitleLabel.centerYAnchor),
                 hzSlider.leadingAnchor.constraint(equalTo: hzTitleLabel.trailingAnchor, constant: smallPadding),
@@ -243,7 +262,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
                 hzLabel.centerYAnchor.constraint(equalTo: hzTitleLabel.centerYAnchor),
                 hzLabel.leadingAnchor.constraint(equalTo: hzSlider.trailingAnchor, constant: smallPadding),
-                hzLabel.widthAnchor.constraint(equalToConstant: 40),
+                hzLabel.widthAnchor.constraint(equalToConstant: 35),
             ])
         }
 
@@ -251,24 +270,24 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         if let to432Button = to432Button, let to444Button = to444Button, let to437Button = to437Button, let hzLabel = hzLabel {
             NSLayoutConstraint.activate([
                 to432Button.centerYAnchor.constraint(equalTo: hzLabel.centerYAnchor),
-                to432Button.leadingAnchor.constraint(equalTo: hzLabel.trailingAnchor, constant: padding),
+                to432Button.leadingAnchor.constraint(equalTo: hzLabel.trailingAnchor, constant: smallPadding),
 
                 to444Button.centerYAnchor.constraint(equalTo: to432Button.centerYAnchor),
-                to444Button.leadingAnchor.constraint(equalTo: to432Button.trailingAnchor, constant: smallPadding),
+                to444Button.leadingAnchor.constraint(equalTo: to432Button.trailingAnchor, constant: 4),
 
                 to437Button.centerYAnchor.constraint(equalTo: to432Button.centerYAnchor),
-                to437Button.leadingAnchor.constraint(equalTo: to444Button.trailingAnchor, constant: smallPadding),
+                to437Button.leadingAnchor.constraint(equalTo: to444Button.trailingAnchor, constant: 4),
             ])
         }
 
         // MARK: Speed Controls
         if let speedTitleLabel = speedTitleLabel, let speedSlider = speedSlider, let speedLabel = speedLabel {
-            let speedTop: CGFloat = 215
+            let speedTop: CGFloat = 200
 
             NSLayoutConstraint.activate([
                 speedTitleLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: speedTop),
                 speedTitleLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
-                speedTitleLabel.widthAnchor.constraint(equalToConstant: 50),
+                speedTitleLabel.widthAnchor.constraint(equalToConstant: 45),
 
                 speedSlider.centerYAnchor.constraint(equalTo: speedTitleLabel.centerYAnchor),
                 speedSlider.leadingAnchor.constraint(equalTo: speedTitleLabel.trailingAnchor, constant: smallPadding),
@@ -276,7 +295,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
                 speedLabel.centerYAnchor.constraint(equalTo: speedTitleLabel.centerYAnchor),
                 speedLabel.leadingAnchor.constraint(equalTo: speedSlider.trailingAnchor, constant: smallPadding),
-                speedLabel.widthAnchor.constraint(equalToConstant: 40),
+                speedLabel.widthAnchor.constraint(equalToConstant: 35),
             ])
         }
 
@@ -286,7 +305,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
            let speedLabel = speedLabel {
             NSLayoutConstraint.activate([
                 speed1xButton.centerYAnchor.constraint(equalTo: speedLabel.centerYAnchor),
-                speed1xButton.leadingAnchor.constraint(equalTo: speedLabel.trailingAnchor, constant: padding),
+                speed1xButton.leadingAnchor.constraint(equalTo: speedLabel.trailingAnchor, constant: smallPadding),
 
                 speed2xButton.centerYAnchor.constraint(equalTo: speed1xButton.centerYAnchor),
                 speed2xButton.leadingAnchor.constraint(equalTo: speed1xButton.trailingAnchor, constant: 4),
@@ -301,12 +320,12 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
         // MARK: Reverb Controls
         if let reverbTitleLabel = reverbTitleLabel, let reverbSlider = reverbSlider, let reverbLabel = reverbLabel {
-            let reverbTop: CGFloat = 250
+            let reverbTop: CGFloat = 235
 
             NSLayoutConstraint.activate([
                 reverbTitleLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: reverbTop),
                 reverbTitleLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
-                reverbTitleLabel.widthAnchor.constraint(equalToConstant: 50),
+                reverbTitleLabel.widthAnchor.constraint(equalToConstant: 45),
 
                 reverbSlider.centerYAnchor.constraint(equalTo: reverbTitleLabel.centerYAnchor),
                 reverbSlider.leadingAnchor.constraint(equalTo: reverbTitleLabel.trailingAnchor, constant: smallPadding),
@@ -314,31 +333,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
                 reverbLabel.centerYAnchor.constraint(equalTo: reverbTitleLabel.centerYAnchor),
                 reverbLabel.leadingAnchor.constraint(equalTo: reverbSlider.trailingAnchor, constant: smallPadding),
-                reverbLabel.widthAnchor.constraint(equalToConstant: 40),
+                reverbLabel.widthAnchor.constraint(equalToConstant: 35),
             ])
-        }
-
-        // MARK: Volume Slider (Vertical) with Title - 右端に配置
-        if let volumeSlider = volumeSlider, let volumeLabel = volumeLabel {
-            NSLayoutConstraint.activate([
-                // ボリュームスライダー（アートワークの下、右端）
-                volumeSlider.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 120),
-                volumeSlider.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -padding - 20),
-                volumeSlider.widthAnchor.constraint(equalToConstant: 24),
-                volumeSlider.heightAnchor.constraint(equalToConstant: 100),
-
-                // 数値ラベル（スライダーの下）
-                volumeLabel.topAnchor.constraint(equalTo: volumeSlider.bottomAnchor, constant: 4),
-                volumeLabel.centerXAnchor.constraint(equalTo: volumeSlider.centerXAnchor),
-            ])
-
-            // Volタイトルラベル（スライダーの上）
-            if let volumeTitleLabel = volumeTitleLabel {
-                NSLayoutConstraint.activate([
-                    volumeTitleLabel.bottomAnchor.constraint(equalTo: volumeSlider.topAnchor, constant: -4),
-                    volumeTitleLabel.centerXAnchor.constraint(equalTo: volumeSlider.centerXAnchor),
-                ])
-            }
         }
 
         // MARK: Playlist Tables (Bottom)
