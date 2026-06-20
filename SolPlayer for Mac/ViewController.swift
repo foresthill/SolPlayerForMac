@@ -139,6 +139,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     private func setupConstraints() {
         guard let mainView = self.view as? NSView else { return }
 
+        // デバッグ: nilのIBOutletをチェック
+        #if DEBUG
+        if volumeTitleLabel == nil { print("Warning: volumeTitleLabel is nil") }
+        if loadButton == nil { print("Warning: loadButton is nil") }
+        if searchAlbum == nil { print("Warning: searchAlbum is nil") }
+        #endif
+
         // 全ての要素でAuto Layoutを有効化
         enableAutoLayout(for: mainView)
 
@@ -160,22 +167,30 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
 
         // MARK: Volume Controls (Right side, below artwork)
-        if let volumeSlider = volumeSlider, let volumeLabel = volumeLabel, let volumeTitleLabel = volumeTitleLabel, let artworkImage = artworkImage {
+        if let volumeSlider = volumeSlider, let artworkImage = artworkImage {
             NSLayoutConstraint.activate([
-                // Volタイトル（アートワークの下）
-                volumeTitleLabel.topAnchor.constraint(equalTo: artworkImage.bottomAnchor, constant: smallPadding),
-                volumeTitleLabel.centerXAnchor.constraint(equalTo: artworkImage.centerXAnchor),
-
-                // 縦スライダー（Volラベルの下）
-                volumeSlider.topAnchor.constraint(equalTo: volumeTitleLabel.bottomAnchor, constant: 4),
-                volumeSlider.centerXAnchor.constraint(equalTo: volumeTitleLabel.centerXAnchor),
+                // 縦スライダー（アートワークの下）
+                volumeSlider.topAnchor.constraint(equalTo: artworkImage.bottomAnchor, constant: padding + 20),
+                volumeSlider.centerXAnchor.constraint(equalTo: artworkImage.centerXAnchor),
                 volumeSlider.widthAnchor.constraint(equalToConstant: 24),
                 volumeSlider.heightAnchor.constraint(equalToConstant: 80),
-
-                // 数値ラベル（スライダーの下）
-                volumeLabel.topAnchor.constraint(equalTo: volumeSlider.bottomAnchor, constant: 4),
-                volumeLabel.centerXAnchor.constraint(equalTo: volumeSlider.centerXAnchor),
             ])
+
+            // Volタイトルラベル（スライダーの上）- 別個に設定
+            if let volumeTitleLabel = volumeTitleLabel {
+                NSLayoutConstraint.activate([
+                    volumeTitleLabel.bottomAnchor.constraint(equalTo: volumeSlider.topAnchor, constant: -4),
+                    volumeTitleLabel.centerXAnchor.constraint(equalTo: volumeSlider.centerXAnchor),
+                ])
+            }
+
+            // 数値ラベル（スライダーの下）- 別個に設定
+            if let volumeLabel = volumeLabel {
+                NSLayoutConstraint.activate([
+                    volumeLabel.topAnchor.constraint(equalTo: volumeSlider.bottomAnchor, constant: 4),
+                    volumeLabel.centerXAnchor.constraint(equalTo: volumeSlider.centerXAnchor),
+                ])
+            }
         }
 
         // MARK: Song Info Area (Top Left)
@@ -192,11 +207,19 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
 
         // MARK: Playlist Label (Below Artist)
-        if let playlistLabel = playlistLabel, let artistLabel = artistLabel {
-            NSLayoutConstraint.activate([
-                playlistLabel.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: 2),
-                playlistLabel.leadingAnchor.constraint(equalTo: artistLabel.leadingAnchor),
-            ])
+        if let playlistLabel = playlistLabel {
+            if let artistLabel = artistLabel {
+                NSLayoutConstraint.activate([
+                    playlistLabel.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: 2),
+                    playlistLabel.leadingAnchor.constraint(equalTo: artistLabel.leadingAnchor),
+                ])
+            } else {
+                // Fallback if artistLabel is nil
+                NSLayoutConstraint.activate([
+                    playlistLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 60),
+                    playlistLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: padding),
+                ])
+            }
         }
 
         // MARK: Time Slider & Labels
