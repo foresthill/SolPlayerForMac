@@ -30,28 +30,25 @@ class ITunesLibrary: NSObject {
         return NSHomeDirectory() + "/Music/iTunes/iTunes Music Library.xml"
     }
     
-    /*func load(libraryXmlPath: String) -> NSError? {*/
-    /* func load(libraryXmlPath: String) { */
     func load(libraryXmlPath: String) -> NSMutableDictionary {
-        /*var error:NSError = NSError()*/
-        
-        //let data = NSData.dataWithContentsOfFile(libraryXmlPath, options:nil, error: &error)
-        let data = NSData(contentsOf: NSURL(fileURLWithPath: libraryXmlPath) as URL)
         var plist = NSMutableDictionary()
-        if data != nil {
-            do {
-                plist = try PropertyListSerialization.propertyList(from: data! as Data, options: PropertyListSerialization.ReadOptions(rawValue: UInt(2)), format: nil) as! NSMutableDictionary as NSMutableDictionary
-            } catch {
-                //throw error
-            }
-            libraryDict = plist
-            mpegTitleList = []
+
+        guard let url = URL(string: "file://" + libraryXmlPath) ?? URL(fileURLWithPath: libraryXmlPath) as URL?,
+              let data = try? Data(contentsOf: url) else {
+            print("Warning: Could not load iTunes library from \(libraryXmlPath)")
+            return plist
         }
-        //print(data)
-        //print(plist)
-        /*
-        return nil
-         */
+
+        do {
+            if let dict = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? NSMutableDictionary {
+                plist = dict
+                libraryDict = plist
+                mpegTitleList = []
+            }
+        } catch {
+            print("Warning: Failed to parse iTunes library: \(error)")
+        }
+
         return plist
     }
     
