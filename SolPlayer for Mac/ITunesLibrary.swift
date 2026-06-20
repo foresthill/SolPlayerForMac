@@ -93,57 +93,57 @@ class ITunesLibrary: NSObject {
     
     func searchAlbum(title: String) -> [TrackId] {
         var trackIds : Array<TrackId> = []
-        let tracks = libraryDict["Tracks"] as! NSDictionary
-        //print(tracks)
+
+        // libraryDictが空または"Tracks"がない場合は空配列を返す
+        guard let tracks = libraryDict["Tracks"] as? NSDictionary else {
+            print("Warning: No Tracks found in iTunes library")
+            return trackIds
+        }
+
         for (key, dict) in tracks {
-            //print(dict["Album"])
-            /* if (dict["Album"] as! String?) == title { */
-            //if ((dict["Album"] as! String?)!.containsString(title)) {    // あいまい検索にする
-            let dictTemp = dict as! NSDictionary?    // 型を指定してやらないとコンパイルに通らなくなってしまった（2021/10/31）
-            if let albumName = dictTemp!["Album"] as! NSString? {    // あいまい検索にする
-                    //print(dict["Album"])
+            guard let dictTemp = dict as? NSDictionary else { continue }
+            if let albumName = dictTemp["Album"] as? NSString {
                 if albumName.localizedCaseInsensitiveContains(title) {
-                    trackIds.append(Int(key as! String)!)
+                    if let keyString = key as? String, let trackId = Int(keyString) {
+                        trackIds.append(trackId)
+                    }
                 }
             }
         }
         trackIds.sort { $0 < $1 }
-        //print(libraryDict)
-        
+
         return trackIds
     }
     
     /* 曲名取得 */
     func songTitle(id: TrackId) -> String {
-        let tracks = libraryDict["Tracks"] as! NSDictionary
-        let track = tracks[String(id)] as! NSDictionary
-        return track["Name"] as! String
+        guard let tracks = libraryDict["Tracks"] as? NSDictionary,
+              let track = tracks[String(id)] as? NSDictionary,
+              let name = track["Name"] as? String else {
+            return "Unknown"
+        }
+        return name
     }
-    
+
     /* 再生時間取得（ms） */
     func songDuration(id: TrackId) -> String {
-        let tracks = libraryDict["Tracks"] as! NSDictionary
-        let track = tracks[String(id)] as! NSDictionary
-        return track["Total Time"] as! String
+        guard let tracks = libraryDict["Tracks"] as? NSDictionary,
+              let track = tracks[String(id)] as? NSDictionary,
+              let duration = track["Total Time"] else {
+            return "0"
+        }
+        return String(describing: duration)
     }
 
     /* アセットURL取得 */
-    func songAssetURL(id: TrackId) -> NSURL {
-        let tracks = libraryDict["Tracks"] as! NSDictionary
-        let track = tracks[String(id)] as! NSDictionary
-        //print(track["Location"])
-        //print(NSURL(fileURLWithPath: track["Location"] as! String))
-        //return NSURL(fileURLWithPath: track["Location"] as! String)
-        //print(NSURL(fileURLWithPath: track["Location"] as! String).baseURL)
-        //print(NSURL(fileURLWithPath: track["Location"] as! String).absoluteURL)
-        //print(NSURL(fileURLWithPath: track["Location"] as! String).filePathURL)
-        //print(NSURL(fileURLWithPath: track["Location"] as! String).fileReferenceURL())
-        //print(NSURL(fileURLWithPath: track["Location"] as! String).
-        //print(NSURL.fileURLWithPath(track["Location"] as! String))
-        //print(NSURL.init(string: track["Location"] as! String))
-        //return NSURL(fileURLWithPath: track["Location"] as! String).filePathURL!
-
-        return NSURL.init(string: track["Location"] as! String)!
+    func songAssetURL(id: TrackId) -> NSURL? {
+        guard let tracks = libraryDict["Tracks"] as? NSDictionary,
+              let track = tracks[String(id)] as? NSDictionary,
+              let location = track["Location"] as? String,
+              let url = NSURL(string: location) else {
+            return nil
+        }
+        return url
     }
     
     class func parse(titlesChunk: String) -> [String] {
@@ -171,21 +171,27 @@ class ITunesLibrary: NSObject {
         if ids.count != titles.count {
             return NSError(domain: "The number of titles is not the same as the number of tracks", code: 10001, userInfo: nil)
         }
-        let tracks = libraryDict["Tracks"] as! NSDictionary
-        
+        guard let tracks = libraryDict["Tracks"] as? NSDictionary else {
+            return NSError(domain: "No Tracks found in library", code: 10003, userInfo: nil)
+        }
+
         for id in ids {
             if tracks[String(id)] == nil {
-                //return NSError.errorWithDomain("TrackId \(id) not found", code: 10002, userInfo: nil)
                 return NSError(domain: "TrackId \(id) not found", code: 10002, userInfo: nil)
             }
         }
-        
+
         for i in 0 ..< ids.count {
-            var track = tracks[String(ids[i])] as! NSMutableDictionary
+            guard let track = tracks[String(ids[i])] as? NSMutableDictionary,
+                  let location = track["Location"] as? String,
+                  let url = NSURL(string: location),
+                  let path = url.path else {
+                continue
+            }
             track["Name"] = titles[i]
-            mpegTitleList.append(MpegFileTitle(path: NSURL(string: track["Location"] as! String)!.path!, title: titles[i]))
+            mpegTitleList.append(MpegFileTitle(path: path, title: titles[i]))
         }
-        
+
         return nil
         
     }

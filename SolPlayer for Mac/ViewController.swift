@@ -978,8 +978,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         //print(searchAlbum.stringValue)
         //print(trackIds)
         for trackId in trackIds {
-            solPlayer.playlist.append(Song(title:iTunes.songTitle(id: trackId), assetURL:iTunes.songAssetURL(id: trackId)))
-            //print(iTunes.songAssetURL(trackId))
+            if let url = iTunes.songAssetURL(id: trackId) {
+                solPlayer.playlist.append(Song(title: iTunes.songTitle(id: trackId), assetURL: url))
+            }
         }
         
         songTableView.reloadData()
